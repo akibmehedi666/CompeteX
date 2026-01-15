@@ -9,7 +9,7 @@ import {
     Map, Calendar, BookOpen,
     Trophy, Users, Star,
     MessageSquare, Briefcase, Handshake,
-    User, LayoutDashboard, Building2
+    User, LayoutDashboard, Building2, LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,13 +28,13 @@ const NAV_ITEMS = [
         items: [
             { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
             { label: "Team Builder", icon: Users, href: "/teams" },
-            { label: "Rating System", icon: Star, href: "/dashboard" }, // Generic for now
+            { label: "Rating System", icon: Star, href: "/rating" },
         ]
     },
     {
         label: "Network",
         items: [
-            { label: "Messaging", icon: MessageSquare, href: "/dashboard" }, // Chat is everywhere
+            { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
             { label: "Recruitment", icon: Briefcase, href: "/recruitment" },
             { label: "Sponsorships", icon: Handshake, href: "/sponsorship" },
         ]
@@ -52,6 +52,7 @@ export function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
     const { currentUser, logout, initAuth } = useStore();
 
     useEffect(() => {
@@ -126,26 +127,55 @@ export function Navbar() {
                         <div className="h-6 w-px bg-white/10" />
 
                         {currentUser ? (
-                            <div className="relative group">
-                                <button className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-accent1/20 border border-accent1/50 overflow-hidden">
-                                        <img src={currentUser.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=User"} alt="User" className="w-full h-full object-cover" />
-                                    </div>
-                                    <ChevronDown className="w-4 h-4 text-gray-400" />
-                                </button>
-
-                                {/* User Dropdown */}
-                                <div className="absolute top-full right-0 mt-2 w-48 bg-black/90 border border-white/10 rounded-lg p-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all">
-                                    <Link href="/profile" className="flex items-center gap-2 p-2 hover:bg-white/5 rounded text-sm text-gray-300 hover:text-white">
-                                        <User className="w-4 h-4" /> Profile
-                                    </Link>
+                            <div className="flex items-center gap-3">
+                                <div className="relative">
                                     <button
-                                        onClick={logout}
-                                        className="w-full flex items-center gap-2 p-2 hover:bg-red-500/10 rounded text-sm text-gray-300 hover:text-red-500 text-left"
+                                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                        className="flex items-center gap-2"
                                     >
-                                        <X className="w-4 h-4" /> Logout
+                                        <div className={`w-8 h-8 rounded-full bg-accent1/20 border border-accent1/50 overflow-hidden transition-all ${userMenuOpen ? 'ring-2 ring-accent1' : ''}`}>
+                                            <img src={currentUser.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=User"} alt="User" className="w-full h-full object-cover" />
+                                        </div>
+                                        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                                     </button>
+
+                                    {/* User Dropdown */}
+                                    <AnimatePresence>
+                                        {userMenuOpen && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                className="absolute top-full right-0 mt-2 w-48 bg-black/90 border border-white/10 rounded-lg p-2 shadow-xl z-50"
+                                            >
+                                                <Link
+                                                    href="/profile"
+                                                    onClick={() => setUserMenuOpen(false)}
+                                                    className="flex items-center gap-2 p-2 hover:bg-white/5 rounded text-sm text-gray-300 hover:text-white"
+                                                >
+                                                    <User className="w-4 h-4" /> Profile
+                                                </Link>
+                                                {(currentUser.role === 'Organizer' || currentUser.role === 'Sponsor' || currentUser.role === 'Recruiter') && (
+                                                    <Link
+                                                        href={currentUser.role === 'Organizer' ? '/organizer/dashboard' : currentUser.role === 'Sponsor' ? '/sponsorship' : '/recruitment'}
+                                                        onClick={() => setUserMenuOpen(false)}
+                                                        className="flex items-center gap-2 p-2 hover:bg-white/5 rounded text-sm text-gray-300 hover:text-white"
+                                                    >
+                                                        <LayoutDashboard className="w-4 h-4" /> Dashboard
+                                                    </Link>
+                                                )}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
+
+                                <button
+                                    onClick={logout}
+                                    title="Logout"
+                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-full transition-all"
+                                >
+                                    <LogOut className="w-5 h-5" />
+                                </button>
                             </div>
                         ) : (
                             <>

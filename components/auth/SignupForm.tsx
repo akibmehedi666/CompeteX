@@ -8,6 +8,8 @@ import { RegistrationSchema, RegistrationData } from "@/types/auth";
 import { Check, ChevronRight, ChevronLeft, Loader2, User, LayoutDashboard, Building2, Handshake, Briefcase, Lock, Mail, Heading } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { normalizeRole, getDashboardRoute } from "@/lib/auth";
+import { UserRole } from "@/types";
 
 const ROLES = [
     { id: "participant", label: "Participant", icon: User, desc: "Join hackathons & compete" },
@@ -54,16 +56,28 @@ export function SignupForm() {
         console.log("Submitting Data:", data);
         setIsSubmitting(true);
 
+        // Normalize role to match UserRole type (capitalized)
+        const normalizedRole = normalizeRole(data.role);
+        
+        // Create user object matching User type
+        const userData = {
+            id: `u${Date.now()}`,
+            name: data.fullName,
+            email: data.email,
+            role: normalizedRole as UserRole,
+            university: data.role === "organizer" ? (data as any).organizationName : undefined,
+            skills: data.role === "participant" ? (data as any).skills || [] : [],
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + data.fullName,
+            stats: normalizedRole === "Participant" ? { rank: 42, points: 1250, eventsWon: 3 } : undefined,
+            password: data.password, // Store password for login verification
+        };
+
         // Persist to LocalStorage
-        localStorage.setItem("competex_user_session", JSON.stringify({
-            ...data,
-            avatar: null, // Placeholder for image upload later
-            stats: { rank: 42, points: 1250, eventsWon: 3 } // Mock initial stats
-        }));
+        localStorage.setItem("competex_user_session", JSON.stringify(userData));
 
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 2000));
-        router.push("/profile");
+        router.push(getDashboardRoute(normalizedRole));
     };
 
     const onErrors = (errors: any) => {

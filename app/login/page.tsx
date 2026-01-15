@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/useStore";
 import { Navbar } from "@/components/ui/Navbar";
+import { getDashboardRoute, normalizeRole } from "@/lib/auth";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -18,13 +19,17 @@ export default function LoginPage() {
         const storedUser = localStorage.getItem("competex_user_session");
 
         if (storedUser) {
-            const user = JSON.parse(storedUser);
-            if (user.email === email && user.password === password) {
-                // Success
-                login(email); // Update global store (though store just takes email currently, we might want to pass full user later)
-                // For now, let's update store to actually use this user data if possible, or just rely on localStorage for Profile page
-                router.push("/profile"); // Go to Profile instead of Dashboard for consistency with Signup flow
-                return;
+            try {
+                const user = JSON.parse(storedUser);
+                if (user.email === email && user.password === password) {
+                    // Success - normalize role and redirect to appropriate dashboard
+                    const normalizedRole = normalizeRole(user.role || "Participant");
+                    login(email);
+                    router.push(getDashboardRoute(normalizedRole));
+                    return;
+                }
+            } catch (e) {
+                console.error("Error parsing stored user:", e);
             }
         }
 
@@ -77,6 +82,40 @@ export default function LoginPage() {
                     <button onClick={() => router.push('/signup')} className="text-accent1 hover:underline">
                         Sign Up
                     </button>
+                </div>
+                <div className="mt-8 pt-8 border-t border-white/10">
+                    <p className="text-gray-500 text-xs uppercase tracking-widest text-center mb-4">Development Access</p>
+                    <div className="grid grid-cols-3 gap-2">
+                        {[
+                            { label: "Student", email: "alex@example.com", color: "bg-blue-500/20 text-blue-400" },
+                            { label: "Sponsor", email: "sarah@techcorp.com", color: "bg-purple-500/20 text-purple-400" },
+                            { label: "Organizer", email: "alan@uni.edu", color: "bg-green-500/20 text-green-400" },
+                            { label: "Recruiter", email: "recruiter@agency.com", color: "bg-pink-500/20 text-pink-400" },
+                        ].map((role) => (
+                            <button
+                                key={role.label}
+                                onClick={() => {
+                                    login(role.email);
+                                    // Get user from localStorage to determine role
+                                    const stored = localStorage.getItem("competex_user_session");
+                                    if (stored) {
+                                        try {
+                                            const user = JSON.parse(stored);
+                                            const normalizedRole = normalizeRole(user.role || "Participant");
+                                            router.push(getDashboardRoute(normalizedRole));
+                                        } catch (e) {
+                                            router.push("/dashboard");
+                                        }
+                                    } else {
+                                        router.push("/dashboard");
+                                    }
+                                }}
+                                className={`p-2 rounded text-xs font-bold border border-transparent hover:border-white/20 transition-all ${role.color}`}
+                            >
+                                {role.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

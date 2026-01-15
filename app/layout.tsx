@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/ui/Navbar";
-import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import NextTopLoader from 'nextjs-toploader';
+import { cn } from "@/lib/utils";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 

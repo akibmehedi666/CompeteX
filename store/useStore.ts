@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { User, Event, Team, ChatMessage } from '@/types';
 import { EVENTS, USERS } from '@/constants/mockData';
+import { normalizeRole } from '@/lib/auth';
 
 interface AppState {
     // Auth
@@ -28,11 +29,32 @@ interface AppState {
 export const useStore = create<AppState>((set, get) => ({
     currentUser: null,
     login: (email) => {
-        // Simulated login
-        const user = USERS[0]; // Just picking first mock user
-        const userData = { ...user, email };
-        set({ currentUser: userData });
-        localStorage.setItem("competex_user_session", JSON.stringify(userData));
+        // Check localStorage first for registered users
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem("competex_user_session");
+            if (stored) {
+                try {
+                    const userData = JSON.parse(stored);
+                    if (userData.email === email) {
+                        // Normalize role if needed
+                        if (userData.role) {
+                            userData.role = normalizeRole(userData.role);
+                        }
+                        set({ currentUser: userData });
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Error parsing stored user:", e);
+                }
+            }
+        }
+        
+        // Fallback to mock users
+        const existingUser = USERS.find(u => u.email === email);
+        const user = existingUser || { ...USERS[0], email, name: email.split('@')[0] };
+
+        set({ currentUser: user });
+        localStorage.setItem("competex_user_session", JSON.stringify(user));
     },
     logout: () => {
         set({ currentUser: null });
@@ -45,7 +67,16 @@ export const useStore = create<AppState>((set, get) => ({
         if (typeof window !== 'undefined') {
             const session = localStorage.getItem("competex_user_session");
             if (session) {
-                set({ currentUser: JSON.parse(session) });
+                try {
+                    const userData = JSON.parse(session);
+                    // Normalize role if needed
+                    if (userData.role) {
+                        userData.role = normalizeRole(userData.role);
+                    }
+                    set({ currentUser: userData });
+                } catch (e) {
+                    console.error("Error parsing stored session:", e);
+                }
             }
         }
     },

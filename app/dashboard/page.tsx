@@ -1,67 +1,86 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/Navbar";
-import { UserProfile } from "@/components/dashboard/UserProfile";
-import { TeamBuilder } from "@/components/features/TeamBuilder";
-import { ChatSystem } from "@/components/features/ChatSystem";
-import { ResourcesSection } from "@/components/resources/ResourcesSection";
-import { OrganizerPortal } from "@/components/dashboard/OrganizerPortal";
-import { InstitutionProfile } from "@/components/dashboard/InstitutionProfile";
+import { ParticipantDashboard } from "@/components/dashboard/ParticipantDashboard";
+import { SponsorDashboard } from "@/components/dashboard/SponsorDashboard";
+import { RecruiterDashboard } from "@/components/dashboard/RecruiterDashboard";
 import { useStore } from "@/store/useStore";
-import { USERS } from "@/constants/mockData";
-
-const ROLES = ["Organizer", "Sponsor", "Recruiter"];
+import { normalizeRole } from "@/lib/auth";
+import { UserRole } from "@/types";
 
 export default function DashboardPage() {
-    const [activeTab, setActiveTab] = useState("Profile");
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const { currentUser } = useStore();
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
-    // Use mock user if not logged in (for demo)
-    const user = currentUser || USERS[0];
+    useEffect(() => {
+        // Load user from store or localStorage
+        if (currentUser) {
+            setUser(currentUser);
+            setLoading(false);
+        } else if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem("competex_user_session");
+            if (stored) {
+                try {
+                    const userData = JSON.parse(stored);
+                    userData.role = normalizeRole(userData.role || "Participant");
+                    setUser(userData);
+                } catch (e) {
+                    console.error("Error parsing user:", e);
+                    router.push("/login");
+                }
+            } else {
+                router.push("/login");
+            }
+            setLoading(false);
+        }
+    }, [currentUser, router]);
+
+    useEffect(() => {
+        const tabParam = searchParams.get("tab");
+        if (tabParam) {
+            // Handle tab params if needed
+        }
+    }, [searchParams]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-white">Loading...</div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
+
+    const userRole = normalizeRole(user.role || "Participant");
+
+    // Redirect Organizers to their dedicated dashboard
+    if (userRole === "Organizer") {
+        router.push("/organizer/dashboard");
+        return null;
+    }
 
     return (
-        <div className="min-h-screen pt-20 px-6 max-w-7xl mx-auto pb-20 flex flex-col justify-center">
+        <div className="min-h-screen bg-black pt-24 pb-12 px-6">
             <Navbar />
 
-            <div className="flex items-center justify-between mb-8">
-                <h1 className="text-4xl font-bold text-white">
-                    Hello, <span className="text-accent1">{user.name.split(' ')[0]}</span>
-                </h1>
-
-                <div className="flex bg-white/5 rounded-full p-1 border border-white/10">
-                    {["Profile", "Team", "Manage", "Resources"].map(tab => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-full transition-all ${activeTab === tab ? "bg-white text-black" : "text-gray-400 hover:text-white"
-                                }`}
-                        >
-                            {tab}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-            >
-                {activeTab === "Profile" && <UserProfile user={user} />}
-                {activeTab === "Team" && <div className="h-[500px]"><TeamBuilder /></div>}
-
-                {activeTab === "Manage" && (
-                    <>
-                        {user.role === "Organizer" ? <OrganizerPortal /> : <InstitutionProfile />}
-                    </>
-                )}
-                {activeTab === "Resources" && <ResourcesSection />}
-            </motion.div>
-
-            <ChatSystem />
+            {userRole === "Participant" && (
+                <ParticipantDashboard user={user} setUser={setUser} />
+            )}
+            {userRole === "Sponsor" && (
+                <SponsorDashboard user={user} />
+            )}
+            {userRole === "Recruiter" && (
+                <RecruiterDashboard user={user} />
+            )}
         </div>
     );
 }
