@@ -13,7 +13,7 @@ interface PermissionGateProps {
 
 /**
  * PermissionGate component for feature-level access control
- * Only renders children if the current user has one of the required roles
+ * Only    renders children if the current user has one of the required roles
  */
 export function PermissionGate({ requiredRoles, fallback = null, children }: PermissionGateProps) {
     const { currentUser } = useStore();

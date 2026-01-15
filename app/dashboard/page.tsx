@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/Navbar";
@@ -11,7 +11,7 @@ import { useStore } from "@/store/useStore";
 import { normalizeRole } from "@/lib/auth";
 import { UserRole } from "@/types";
 
-export default function DashboardPage() {
+function DashboardContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { currentUser } = useStore();
@@ -82,5 +82,17 @@ export default function DashboardPage() {
                 <RecruiterDashboard user={user} />
             )}
         </div>
+    );
+}
+
+export default function DashboardPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-white">Loading...</div>
+            </div>
+        }>
+            <DashboardContent />
+        </Suspense>
     );
 }
