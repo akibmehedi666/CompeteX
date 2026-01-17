@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { EventCreationWizard } from "@/components/organizer/EventCreationWizard";
 import { ParticipantManager } from "@/components/organizer/ParticipantManager";
 import { EventAnalytics } from "@/components/organizer/EventAnalytics";
+import { SponsorshipRequests } from "@/components/organizer/SponsorshipRequests";
 
 export function OrganizerPortal() {
     const [activeTab, setActiveTab] = useState<"overview" | "participants" | "analytics" | "create">("overview");
@@ -139,7 +140,7 @@ function OverviewTab({ onAnalytics }: { onAnalytics: () => void }) {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 h-fit">
                     <h3 className="font-bold text-white mb-4">Quick Actions</h3>
                     <div className="space-y-3">
                         <QuickActionButton icon={Users} label="Review New Applications" badge="12" />
@@ -148,6 +149,9 @@ function OverviewTab({ onAnalytics }: { onAnalytics: () => void }) {
                     </div>
                 </div>
             </div>
+
+            {/* Sponsorship Requests Section */}
+            <SponsorshipRequests />
 
             {/* Recent Activity */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">

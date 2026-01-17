@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { CountdownTimer } from "@/components/ui/CountdownTimer";
 import { EventLeaderboard } from "@/components/events/EventLeaderboard";
+import { useStore } from "@/store/useStore";
 
 export default function EventDetailsPage() {
     const params = useParams();
@@ -17,6 +18,11 @@ export default function EventDetailsPage() {
     const [event, setEvent] = useState<DetailedEvent | null>(null);
     const [isRegistered, setIsRegistered] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { currentUser, initAuth } = useStore();
+
+    useEffect(() => {
+        initAuth();
+    }, [initAuth]);
 
     useEffect(() => {
         // Find event data
@@ -120,43 +126,50 @@ export default function EventDetailsPage() {
                         </div>
                     </div>
 
-                    {/* Registration Card */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Trophy className="w-5 h-5 text-accent2" /> Event Stats
-                            </h3>
-
-                            <div className="space-y-4 mb-8">
-                                <StatItem label="Participants" value={`${event.participants}/${event.maxParticipants}`} icon={Users} />
-                                <StatItem label="Team Size" value="2-4 Members" icon={Users} />
-                                <div className="p-3 bg-white/5 rounded-lg border border-white/5">
-                                    <div className="flex items-center gap-3 text-gray-400 mb-1">
-                                        <Clock className="w-4 h-4" />
-                                        <span className="text-sm">Registration Ends In</span>
-                                    </div>
-                                    <CountdownTimer targetDate="2026-02-15T09:00:00" className="text-lg font-bold" />
-                                </div>
+                    {/* Sidebar Action Column */}
+                    <div className="space-y-6">
+                        {/* Register Card */}
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Registration</h3>
+                            <div className="flex justify-between text-sm text-gray-400 mb-4">
+                                <span>Status</span>
+                                <span className={cn(
+                                    "font-bold",
+                                    event.status === "Open" ? "text-green-500" : "text-red-500"
+                                )}>{event.status}</span>
                             </div>
-                        </div>
 
-                        <button
-                            onClick={handleRegister}
-                            disabled={isRegistered || event.status === "Closed"}
-                            className={cn(
-                                "w-full py-4 text-black font-bold uppercase tracking-widest rounded-lg transition-all",
-                                isRegistered
-                                    ? "bg-green-500 cursor-default"
-                                    : event.status === "Closed"
-                                        ? "bg-gray-600 cursor-not-allowed"
-                                        : "bg-accent1 hover:bg-white hover:shadow-[0_0_20px_#00E5FF]"
+                            {(!currentUser || currentUser.role === 'Participant') ? (
+                                <button
+                                    onClick={handleRegister}
+                                    disabled={isRegistered || event.status === "Closed"}
+                                    className={cn(
+                                        "w-full py-3 text-black font-bold uppercase tracking-widest rounded-lg transition-all text-sm",
+                                        isRegistered
+                                            ? "bg-green-500 cursor-default"
+                                            : event.status === "Closed"
+                                                ? "bg-gray-600 cursor-not-allowed"
+                                                : "bg-accent1 hover:bg-white hover:shadow-[0_0_20px_#00E5FF]"
+                                    )}
+                                >
+
+                                    {isRegistered ? <span className="flex items-center justify-center gap-2"><CheckCircle className="w-4 h-4" /> Registered</span> : "Register Now"}
+                                </button>
+                            ) : (
+                                <div className="w-full py-3 bg-white/5 border border-white/10 text-gray-400 font-bold uppercase tracking-widest rounded-lg text-center text-xs">
+                                    Participants Only
+                                </div>
                             )}
-                        >
-                            {isRegistered ? <span className="flex items-center justify-center gap-2"><CheckCircle className="w-5 h-5" /> Registered</span> : "Register Now"}
-                        </button>
+
+                            <p className="text-xs text-gray-500 mt-4 text-center">
+                                Registration closes on {new Date(event.startDate).toLocaleDateString()}
+                            </p>
+                        </div>
                     </div>
+
                 </motion.div>
 
+                {/* Details & Rules */}
                 {/* Details & Rules */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 

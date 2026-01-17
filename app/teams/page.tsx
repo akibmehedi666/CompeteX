@@ -5,7 +5,9 @@ import { Navbar } from "@/components/ui/Navbar";
 import { TeamCard } from "@/components/teams/TeamCard";
 import { ChatSidePanel } from "@/components/teams/ChatSidePanel";
 import { motion } from "framer-motion";
-import { Search, Filter } from "lucide-react";
+import { Search, Users, Trophy, ChevronRight, MessageSquare, Filter, Plus, LogIn } from "lucide-react";
+import { CompetitionDropdown } from "@/components/ui/CompetitionDropdown";
+import { useStore } from "@/store/useStore";
 
 interface TeamMember {
     id: string;
@@ -26,6 +28,7 @@ interface Team {
     maxMembers: number;
     leaderId: string;
     status: "open" | "full" | "invite-only";
+    competition: string;
 }
 
 // Dummy user skills for matching
@@ -49,6 +52,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 4,
         leaderId: "m1",
         status: "open",
+        competition: "Global AI Challenge"
     },
     {
         id: "team-2",
@@ -64,6 +68,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 4,
         leaderId: "m4",
         status: "open",
+        competition: "Neon City Hackathon"
     },
     {
         id: "team-3",
@@ -81,6 +86,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 4,
         leaderId: "m6",
         status: "full",
+        competition: "Neon City Hackathon"
     },
     {
         id: "team-4",
@@ -96,6 +102,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 5,
         leaderId: "m10",
         status: "open",
+        competition: "Design Wars"
     },
     {
         id: "team-5",
@@ -112,6 +119,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 4,
         leaderId: "m12",
         status: "invite-only",
+        competition: "IoT Smart City Challenge"
     },
     {
         id: "team-6",
@@ -126,6 +134,7 @@ const DUMMY_TEAMS: Team[] = [
         maxMembers: 6,
         leaderId: "m15",
         status: "open",
+        competition: "Web Wiz 2026"
     },
 ];
 
@@ -135,8 +144,17 @@ export default function TeamsPage() {
     const [requestStatuses, setRequestStatuses] = useState<Record<string, "idle" | "pending" | "accepted" | "rejected">>({});
     const [chatPanelOpen, setChatPanelOpen] = useState(false);
     const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+    const [selectedCompetition, setSelectedCompetition] = useState<string>("All Competitions");
+    const { currentUser } = useStore();
+
+    // Derive available competitions
+    const competitions = ["All Competitions", ...Array.from(new Set(teams.map(t => t.competition)))];
 
     const handleRequestJoin = (teamId: string) => {
+        if (!currentUser) {
+            window.location.href = '/login';
+            return;
+        }
         setRequestStatuses(prev => ({ ...prev, [teamId]: "pending" }));
         setTimeout(() => {
             setRequestStatuses(prev => ({ ...prev, [teamId]: "accepted" }));
@@ -144,6 +162,10 @@ export default function TeamsPage() {
     };
 
     const handleMessageTeam = (teamId: string) => {
+        if (!currentUser) {
+            window.location.href = '/login';
+            return;
+        }
         const team = teams.find(t => t.id === teamId);
         if (team) {
             setSelectedTeam(team);
@@ -151,11 +173,16 @@ export default function TeamsPage() {
         }
     };
 
-    const filteredTeams = teams.filter(team =>
-        team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        team.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        team.project.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredTeams = teams.filter(team => {
+        const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            team.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            team.project.toLowerCase().includes(searchQuery.toLowerCase());
+
+        const matchesCompetition = selectedCompetition === "All Competitions" ||
+            team.competition === selectedCompetition;
+
+        return matchesSearch && matchesCompetition;
+    });
 
     return (
         <div className="min-h-screen bg-black selection:bg-accent1/30">
@@ -191,10 +218,19 @@ export default function TeamsPage() {
                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white text-sm focus:border-[#00E5FF]/50 focus:outline-none focus:ring-2 focus:ring-[#00E5FF]/20 transition-all"
                         />
                     </div>
-                    <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors text-white font-medium">
-                        <Filter className="w-5 h-5" />
-                        <span>Filters</span>
-                    </button>
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <CompetitionDropdown
+                            competitions={competitions}
+                            selected={selectedCompetition}
+                            onSelect={setSelectedCompetition}
+                            counts={competitions.reduce((acc, comp) => {
+                                acc[comp] = comp === "All Competitions"
+                                    ? teams.length
+                                    : teams.filter(t => t.competition === comp).length;
+                                return acc;
+                            }, {} as Record<string, number>)}
+                        />
+                    </div>
                 </div>
 
                 <div className="mb-8 grid grid-cols-3 gap-4">

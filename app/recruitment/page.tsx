@@ -1,17 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/ui/Navbar";
 import { TALENT_POOL } from "@/constants/talentData";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Briefcase, Star, MapPin, Filter, MessageSquare, ChevronRight, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useStore } from "@/store/useStore";
+import { useRouter } from "next/navigation";
 
 export default function RecruitmentPage() {
     const [flippedId, setFlippedId] = useState<string | null>(null);
     const [filter, setFilter] = useState("All");
+    const { currentUser, initAuth } = useStore();
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        initAuth();
+    }, [initAuth]);
+
+    useEffect(() => {
+        // Give a small delay for auth to initialize or check immediately if we can
+        const timer = setTimeout(() => {
+            if (!currentUser) {
+                router.push("/login");
+            } else if (currentUser.role !== "Recruiter") {
+                router.push("/dashboard");
+            } else {
+                setIsLoading(false);
+            }
+        }, 500); // Small delay to prevent flicker if auth state is restoring
+
+        return () => clearTimeout(timer);
+    }, [currentUser, router]);
 
     const filteredTalent = filter === "All" ? TALENT_POOL : TALENT_POOL.filter(t => t.details.availability === filter);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-purple-500 animate-pulse font-bold text-xl">Accessing Secure Channel...</div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-black selection:bg-purple-500/30">

@@ -15,6 +15,7 @@ export interface User {
     role: UserRole;
     university?: string;
     skills: string[];
+    competitions?: string[]; // Array of competition names user is interested in/registered for
     avatar: string; // URL
     stats?: {
         rank: number;
@@ -64,6 +65,7 @@ export interface Team {
     members: User[];
     maxMembers: number;
     leaderId: string;
+    competition?: string;
 }
 
 export interface Institution {
@@ -79,6 +81,7 @@ export interface Institution {
 export interface ChatMessage {
     id: string;
     senderId: string;
+    recipientId?: string; // For Direct messages
     content: string;
     timestamp: string;
     channel: "Global" | "Team" | "Direct";

@@ -87,10 +87,10 @@ export default function LoginPage() {
                     <p className="text-gray-500 text-xs uppercase tracking-widest text-center mb-4">Development Access</p>
                     <div className="grid grid-cols-3 gap-2">
                         {[
-                            { label: "Student", email: "alex@example.com", color: "bg-blue-500/20 text-blue-400" },
-                            { label: "Sponsor", email: "sarah@techcorp.com", color: "bg-purple-500/20 text-purple-400" },
-                            { label: "Organizer", email: "alan@uni.edu", color: "bg-green-500/20 text-green-400" },
-                            { label: "Recruiter", email: "recruiter@agency.com", color: "bg-pink-500/20 text-pink-400" },
+                            { label: "Student", email: "akib@example.com", color: "bg-blue-500/20 text-blue-400" },
+                            { label: "Sponsor", email: "sadia@grameenphone.com", color: "bg-purple-500/20 text-purple-400" },
+                            { label: "Organizer", email: "hasan@uiu.ac.bd", color: "bg-green-500/20 text-green-400" },
+                            { label: "Recruiter", email: "recruiter@brainstation23.com", color: "bg-pink-500/20 text-pink-400" },
                         ].map((role) => (
                             <button
                                 key={role.label}

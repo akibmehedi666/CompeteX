@@ -20,7 +20,7 @@ export interface DetailedEvent {
 export const DETAILED_EVENTS: DetailedEvent[] = [
     {
         id: "e1",
-        title: "Neon City Hackathon",
+        title: "UIU CSE Fest 2026",
         category: "Coding",
         date: "Jan 02, 2026",
         startDate: "2026-01-02T13:30:00", // ~12 hours from now (Urgent)
@@ -28,7 +28,7 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 124,
         maxParticipants: 500,
         image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
-        description: "A 48-hour sleepless marathon to build the future of Cyberpunk aesthetics and functional dystopia. Join elite coders in this high-stakes development sprint.",
+        description: "A 48-hour sleepless marathon to build the future of tech. Join elite coders at UIU for this high-stakes development sprint.",
         rules: [
             "Projects must be built from scratch during the event.",
             "Teams of 2-4 members.",
@@ -41,19 +41,19 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
             { title: "Hacking Begins", date: "Mar 15, 2025 - 9:00 AM" },
             { title: "Submission Deadline", date: "Mar 17, 2025 - 9:00 AM" }
         ],
-        location: { type: "Offline", address: "Moscone Center, San Francisco, CA" },
+        location: { type: "Offline", address: "United International University, Dhaka" },
         leaderboard: [
-            { rank: 1, name: "CyberNinjas", score: 9850, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=CN", institution: "MIT" },
-            { rank: 2, name: "NullPointer", score: 9400, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=NP", institution: "Stanford" },
-            { rank: 3, name: "GlitchMob", score: 8900, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=GM", institution: "Berkeley" },
-            { rank: 4, name: "RustEnthus", score: 8500, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=RE", institution: "ETH Zurich" },
-            { rank: 5, name: "AI_Overlords", score: 8200, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=AI", institution: "Tsinghua Univ" },
+            { rank: 1, name: "UIU_Knights", score: 9850, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=CN", institution: "UIU" },
+            { rank: 2, name: "BUET_Cyphers", score: 9400, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=NP", institution: "BUET" },
+            { rank: 3, name: "NSU_Coders", score: 8900, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=GM", institution: "NSU" },
+            { rank: 4, name: "BRACU_Bots", score: 8500, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=RE", institution: "BRACU" },
+            { rank: 5, name: "IUT_Intellects", score: 8200, avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=AI", institution: "IUT" },
         ],
-        organizer: { name: "MIT", id: "inst-mit" }
+        organizer: { name: "UIU Computer Club", id: "inst-uiu" }
     },
     {
         id: "e2",
-        title: "RoboWars 2025",
+        title: "BUET RoboCarnival 2026",
         category: "Robotics",
         date: "Jan 04, 2026",
         startDate: "2026-01-04T09:00:00", // ~2 days from now
@@ -61,7 +61,7 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 45,
         maxParticipants: 100,
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
-        description: "Build, fight, destroy. The ultimate combat robotics tournament returning to the arena. Weight class: 3kg.",
+        description: "Build, fight, destroy. The ultimate combat robotics tournament returning to the BUET arena. Weight class: 3kg.",
         rules: [
             "Robots must fit within 50cm x 50cm dimensions.",
             "No flamethrowers or EMP devices.",
@@ -73,17 +73,17 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
             { title: "Safety Inspection", date: "Mar 25, 2025" },
             { title: "Battle Day", date: "Apr 02, 2025" }
         ],
-        location: { type: "Offline", address: "Tech Arena, Austin, TX" },
+        location: { type: "Offline", address: "BUET Gymnasium, Dhaka" },
         leaderboard: [
-            { rank: 1, name: "IronGiants", score: 100, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=IG", institution: "Boston Dynamics" },
-            { rank: 2, name: "SparkPlug", score: 95, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=SP", institution: "Georgia Tech" },
-            { rank: 3, name: "CircuitBreaker", score: 88, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=CB", institution: "CMU" },
+            { rank: 1, name: "RoboTiger", score: 100, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=IG", institution: "BUET" },
+            { rank: 2, name: "MechWarriors", score: 95, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=SP", institution: "RUET" },
+            { rank: 3, name: "ElectroShock", score: 88, avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=CB", institution: "KUET" },
         ],
-        organizer: { name: "Stanford University", id: "inst-stanford" }
+        organizer: { name: "BUET Robotics Society", id: "inst-buet" }
     },
     {
         id: "e3",
-        title: "Eco-Design Sprint",
+        title: "Dhaka Design Sprint",
         category: "Design",
         date: "Jan 07, 2026",
         startDate: "2026-01-07T10:00:00", // ~5 days from now
@@ -91,7 +91,7 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 289,
         maxParticipants: 300,
         image: "https://images.unsplash.com/photo-1576153192396-4a2f02432668?w=800&q=80",
-        description: "Redesign everyday objects for a sustainable future. Focus on material efficiency and circular economy.",
+        description: "Redesign everyday objects for a sustainable future in Bangladesh. Focus on material efficiency and circular economy.",
         rules: [
             "Submit high-fidelity renders.",
             "Include a material breakdown sheet.",
@@ -103,17 +103,17 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
             { title: "Sprint Begins", date: "Mar 18, 2025" },
             { title: "Final Pitch", date: "Mar 20, 2025" }
         ],
-        location: { type: "Online", address: "https://meet.google.com/eco-sprint-2025" },
+        location: { type: "Online", address: "https://meet.google.com/eco-sprint-bd-2025" },
         leaderboard: [
-            { rank: 1, name: "GreenFuture", score: 9.8, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=GF", institution: "RISD" },
-            { rank: 2, name: "EcoMinimalist", score: 9.5, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=EM", institution: "Parsons" },
-            { rank: 3, name: "CircularDesign", score: 9.2, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=CD", institution: "RCA" },
+            { rank: 1, name: "GreenBengal", score: 9.8, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=GF", institution: "Charukola" },
+            { rank: 2, name: "EcoDhaka", score: 9.5, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=EM", institution: "AUST" },
+            { rank: 3, name: "CircularBD", score: 9.2, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=CD", institution: "Shanto-Mariam" },
         ],
-        organizer: { name: "RISD", id: "inst-risd" }
+        organizer: { name: "Shanto-Mariam University", id: "inst-shanto-mariam" }
     },
     {
         id: "e4",
-        title: "Algorithmic Trading Cup",
+        title: "FinTech Dhaka Challenge",
         category: "Finance",
         date: "Jan 15, 2026",
         startDate: "2026-01-15T08:00:00", // Future
@@ -121,9 +121,9 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 512,
         maxParticipants: 1000,
         image: "https://images.unsplash.com/photo-1611974765270-ca1258634369?w=800&q=80",
-        description: "Develop the most profitable trading algorithm using our simulated market data API.",
+        description: "Develop the most profitable trading algorithm for the Dhaka Stock Exchange using our simulated market data API.",
         rules: [
-            "Initial capital: $100,000 (Simulated).",
+            "Initial capital: 100,000 BDT (Simulated).",
             "Max 50 trades per day.",
             "Use provided Python/C++ API wrapper.",
             "Strategies must be fully automated."
@@ -135,11 +135,11 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         ],
         location: { type: "Online", address: "CompeteX Trading Server" },
         leaderboard: [],
-        organizer: { name: "Stanford University", id: "inst-stanford" }
+        organizer: { name: "IBA, Dhaka University", id: "inst-iba" }
     },
     {
         id: "e5",
-        title: "Quantum Computing Challenge",
+        title: "NSU Cyber Struggle",
         category: "Science",
         date: "Feb 01, 2026",
         startDate: "2026-02-01T12:00:00",
@@ -147,9 +147,9 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 80,
         maxParticipants: 200,
         image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80",
-        description: "Solve complex optimization problems using Qiskit. The future of computation is here.",
+        description: "Solve complex cybersecurity puzzles and capture flags in this intense CTF event.",
         rules: [
-            "Solutions must run on IBM Quantum Experience simulators.",
+            "Solutions must be submitted within time limit.",
             "Code must be open source.",
             "Team collaboration encouraged.",
             "Novelty of the approach carries 50% score."
@@ -159,9 +159,9 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
             { title: "Workshop Series", date: "May 10-20, 2025" },
             { title: "Submission", date: "Jun 01, 2025" }
         ],
-        location: { type: "Online", address: "IBM Cloud" },
+        location: { type: "Online", address: "NSU Cyber Range" },
         leaderboard: [],
-        organizer: { name: "MIT", id: "inst-mit" }
+        organizer: { name: "North South University", id: "inst-nsu" }
     },
     {
         id: "e6",
@@ -196,7 +196,7 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
     },
     {
         id: "e-past-1",
-        title: "Winter AI Summit 2025",
+        title: "AI Bangladesh Summit",
         category: "Artificial Intelligence",
         date: "Dec 15, 2025",
         startDate: "2025-12-15T09:00:00",
@@ -204,14 +204,14 @@ export const DETAILED_EVENTS: DetailedEvent[] = [
         participants: 250,
         maxParticipants: 300,
         image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
-        description: "An exclusive gathering of AI researchers and enthusiasts to discuss the breakthroughs of the year.",
+        description: "An exclusive gathering of AI researchers and enthusiasts to discuss the breakthroughs of the year in Bangladesh.",
         rules: ["Invite only", "No recording"],
         timeline: [
             { title: "Keynote", date: "Dec 15, 2025" }
         ],
-        location: { type: "Offline", address: "Cambridge, MA" },
+        location: { type: "Offline", address: "Bangabandhu International Conference Center" },
         leaderboard: [],
-        organizer: { name: "MIT", id: "inst-mit" }
+        organizer: { name: "UIU AI Club", id: "inst-uiu-ai" }
     },
     {
         id: "e-past-2",

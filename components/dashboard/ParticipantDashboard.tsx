@@ -9,6 +9,8 @@ import { User, ProfileVisibility } from "@/types";
 import { VisibilityToggle } from "@/components/participant/VisibilityToggle";
 import { AchievementsGallery } from "@/components/participant/AchievementsGallery";
 import { CompetitionHistory } from "@/components/participant/CompetitionHistory";
+import { TeamInvites } from "@/components/participant/TeamInvites";
+import { RecommendedEvents } from "@/components/participant/RecommendedEvents";
 
 interface ParticipantDashboardProps {
     user: User;
@@ -277,6 +279,32 @@ export function ParticipantDashboard({ user, setUser }: ParticipantDashboardProp
                                 </div>
                             </motion.div>
 
+                        </div>
+
+                        {/* Recent Activity & Recommendations Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                            {/* Left Column: Team Invites */}
+                            <div>
+                                <TeamInvites />
+                            </div>
+
+                            {/* Middle Column: Recommended Events */}
+                            <div>
+                                <RecommendedEvents />
+                            </div>
+
+                            {/* Right Column: Mini Leaderboard or quick stats (Placeholder/Existing) */}
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                                <h3 className="text-lg font-bold text-white mb-4">Daily Streak</h3>
+                                <div className="text-center py-4">
+                                    <div className="text-4xl font-bold text-accent1 mb-1">🔥 12</div>
+                                    <p className="text-sm text-gray-400">Days Active</p>
+                                </div>
+                                <div className="w-full bg-white/10 h-2 rounded-full mt-2 overflow-hidden">
+                                    <div className="bg-accent1 h-full w-[70%]" />
+                                </div>
+                                <p className="text-xs text-center text-gray-500 mt-2">Keep it up to earn badges!</p>
+                            </div>
                         </div>
                     </>
                 )}

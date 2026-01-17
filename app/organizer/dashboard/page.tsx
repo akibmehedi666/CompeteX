@@ -19,13 +19,13 @@ export default function OrganizerDashboardPage() {
                 try {
                     const userData = JSON.parse(stored);
                     const normalizedRole = normalizeRole(userData.role || "Participant");
-                    
+
                     // Redirect if not an organizer
                     if (normalizedRole !== "Organizer") {
                         router.push("/dashboard");
                         return;
                     }
-                    
+
                     setUser(userData);
                 } catch (e) {
                     console.error("Error parsing user:", e);
@@ -53,7 +53,7 @@ export default function OrganizerDashboardPage() {
     return (
         <div className="min-h-screen bg-black">
             <Navbar />
-            <div className="pt-24 pb-12 px-6">
+            <div className="pt-24 pb-12 px-6 max-w-7xl mx-auto">
                 <OrganizerPortal />
             </div>
         </div>

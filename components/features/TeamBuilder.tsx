@@ -3,7 +3,8 @@
 "use client";
 
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
-import { Plus, X, CheckCircle, UserPlus, Users, Search, GripVertical } from "lucide-react";
+import { Plus, X, CheckCircle, UserPlus, Users, Search, GripVertical, Trophy } from "lucide-react";
+import { CompetitionDropdown } from "@/components/ui/CompetitionDropdown";
 import { useState, useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { TALENT_POOL } from "@/constants/talentData";
@@ -12,10 +13,14 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export function TeamBuilder() {
-    const { myTeam, addToTeam, removeFromTeam } = useStore();
+    const { myTeam, addToTeam, removeFromTeam, currentUser } = useStore();
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCompetition, setSelectedCompetition] = useState<string>("All Competitions");
     const [filteredTalent, setFilteredTalent] = useState<User[]>(TALENT_POOL);
     const [draggingId, setDraggingId] = useState<string | null>(null);
+
+    // Derive available competitions from TALENT_POOL
+    const competitions = ["All Competitions", ...Array.from(new Set(TALENT_POOL.flatMap(u => u.competitions || [])))];
 
     // Persistence on Mount
     useEffect(() => {
@@ -38,14 +43,20 @@ export function TeamBuilder() {
     // Filter Logic
     useEffect(() => {
         const lowerSearch = searchTerm.toLowerCase();
-        const filtered = TALENT_POOL.filter(user =>
-            !myTeam?.members.some(m => m.id === user.id) && // Exclude already in team
-            (user.name.toLowerCase().includes(lowerSearch) ||
+        const filtered = TALENT_POOL.filter(user => {
+            const matchesSearch = user.name.toLowerCase().includes(lowerSearch) ||
                 user.skills?.some(s => s.toLowerCase().includes(lowerSearch)) ||
-                user.role.toLowerCase().includes(lowerSearch))
-        );
+                user.role.toLowerCase().includes(lowerSearch);
+
+            const matchesCompetition = selectedCompetition === "All Competitions" ||
+                user.competitions?.includes(selectedCompetition);
+
+            const notInTeam = !myTeam?.members.some(m => m.id === user.id);
+
+            return notInTeam && matchesSearch && matchesCompetition;
+        });
         setFilteredTalent(filtered);
-    }, [searchTerm, myTeam?.members]);
+    }, [searchTerm, selectedCompetition, myTeam?.members]);
 
     const handleInvite = (user: User) => {
         if ((myTeam?.members.length || 0) >= (myTeam?.maxMembers || 4)) {
@@ -67,6 +78,43 @@ export function TeamBuilder() {
 
     const isFull = (myTeam?.members.length ?? 0) >= (myTeam?.maxMembers ?? 4);
 
+    // If not logged in, show login prompt
+    if (!currentUser) {
+        return (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-140px)]">
+                <div className="lg:col-span-12 flex items-center justify-center">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-sm"
+                    >
+                        <div className="w-16 h-16 bg-accent1/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Users className="w-8 h-8 text-accent1" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-3">Team Builder Access Required</h2>
+                        <p className="text-gray-400 mb-6">
+                            You need to be logged in to build your squad and invite teammates. Join CompeteX to unlock team collaboration features.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <button
+                                onClick={() => window.location.href = '/login'}
+                                className="w-full py-3 bg-accent1 text-black font-bold uppercase tracking-widest text-sm rounded-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(0,229,255,0.4)]"
+                            >
+                                Log In to Continue
+                            </button>
+                            <button
+                                onClick={() => window.location.href = '/signup'}
+                                className="w-full py-3 bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-sm rounded-lg hover:bg-white/10 transition-all"
+                            >
+                                Create Account
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-140px)]">
 
@@ -76,15 +124,30 @@ export function TeamBuilder() {
                     <h3 className="text-2xl font-bold text-white flex items-center gap-2">
                         <Users className="w-6 h-6 text-accent1" /> Talent Feed
                     </h3>
-                    <div className="relative w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                        <input
-                            type="text"
-                            placeholder="Find skills (e.g. React, Design)..."
-                            className="w-full bg-black/40 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent1/50 transition-colors placeholder:text-gray-600"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                    <div className="flex gap-2">
+                        <CompetitionDropdown
+                            competitions={competitions}
+                            selected={selectedCompetition}
+                            onSelect={setSelectedCompetition}
+                            counts={competitions.reduce((acc, comp) => {
+                                acc[comp] = comp === "All Competitions"
+                                    ? TALENT_POOL.length
+                                    : TALENT_POOL.filter(t => t.competitions?.includes(comp)).length;
+                                return acc;
+                            }, {} as Record<string, number>)}
                         />
+
+                        {/* Search Bar */}
+                        <div className="relative w-64">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                            <input
+                                type="text"
+                                placeholder="Find skills (e.g. React, Design)..."
+                                className="w-full bg-black/40 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent1/50 transition-colors placeholder:text-gray-600"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
                     </div>
                 </div>
 

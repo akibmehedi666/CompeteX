@@ -10,7 +10,9 @@ export default function MapPage() {
                     <h1 className="text-4xl font-bold text-white">Venue <span className="text-accent1">Map</span></h1>
                     <p className="text-gray-400">Navigate the arena.</p>
                 </div>
-                <VenueMap />
+                <div className="max-w-7xl mx-auto px-6">
+                    <VenueMap />
+                </div>
             </div>
         </div>
     );

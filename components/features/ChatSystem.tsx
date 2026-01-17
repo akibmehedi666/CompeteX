@@ -14,23 +14,29 @@ const CHANNELS = [
 export function ChatSystem() {
     const [activeChannel, setActiveChannel] = useState<typeof CHANNELS[number]["id"]>("Global");
     const [input, setInput] = useState("");
-    const { messages, addMessage, currentUser } = useStore();
+    const { messages, addMessage, currentUser, activeDirectMessageUser, setActiveDirectMessageUser } = useStore();
 
     const handleSend = (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim()) return;
 
         addMessage({
-            id: Date.now().toString(),
             senderId: currentUser?.id || "anon",
             content: input,
-            timestamp: new Date().toISOString(),
             channel: activeChannel
         });
         setInput("");
     };
 
-    const currentMessages = messages.filter(m => m.channel === activeChannel);
+    const currentMessages = messages.filter(m => {
+        if (m.channel !== activeChannel) return false;
+        if (activeChannel === "Direct") {
+            // Filter DMs involving BOTH current user and active target user
+            return (m.senderId === currentUser?.id && m.recipientId === activeDirectMessageUser?.id) ||
+                (m.senderId === activeDirectMessageUser?.id && m.recipientId === currentUser?.id);
+        }
+        return true;
+    });
 
     return (
         <div className="fixed bottom-4 right-4 w-[350px] h-[500px] bg-[#0A0A0A] border border-white/10 rounded-xl shadow-2xl flex flex-col overflow-hidden z-40 transition-transform translate-y-[calc(100%-60px)] hover:translate-y-0 duration-300">
@@ -52,7 +58,29 @@ export function ChatSystem() {
 
             {/* Messages Area */}
             <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-white/[0.02]">
-                {currentMessages.length === 0 && (
+                {activeChannel === "Direct" && activeDirectMessageUser && (
+                    <div className="flex items-center justify-between p-2 bg-accent1/5 border border-accent1/20 rounded-lg mb-2">
+                        <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full overflow-hidden border border-accent1/30">
+                                <img src={activeDirectMessageUser.avatar} alt="" className="w-full h-full object-cover" />
+                            </div>
+                            <span className="text-xs font-bold text-accent1">{activeDirectMessageUser.name}</span>
+                        </div>
+                        <button
+                            onClick={() => setActiveDirectMessageUser(null)}
+                            className="text-[10px] text-gray-500 hover:text-white uppercase tracking-tighter"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                )}
+                {activeChannel === "Direct" && !activeDirectMessageUser && (
+                    <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-2">
+                        <User className="w-8 h-8 text-gray-700" />
+                        <p className="text-xs text-gray-500">Pick a user from the Community to start a direct secure channel.</p>
+                    </div>
+                )}
+                {currentMessages.length === 0 && (activeChannel !== "Direct" || activeDirectMessageUser) && (
                     <div className="h-full flex items-center justify-center text-xs text-gray-600 italic">
                         No messages in {activeChannel} yet.
                     </div>

@@ -12,41 +12,97 @@ import {
     User, LayoutDashboard, Building2, LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { NotificationsDropdown } from "@/components/ui/NotificationsDropdown";
 
-const NAV_ITEMS = [
-    {
-        label: "Explore",
-        items: [
-            { label: "Event Hub", icon: Calendar, href: "/events" },
-            { label: "Venue Map", icon: Map, href: "/map" },
-            { label: "Resources", icon: BookOpen, href: "/resources" },
-            { label: "Institutions", icon: Building2, href: "/institutions" },
-        ]
-    },
-    {
-        label: "Compete",
-        items: [
-            { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
-            { label: "Team Builder", icon: Users, href: "/teams" },
-            { label: "Rating System", icon: Star, href: "/rating" },
-        ]
-    },
-    {
-        label: "Network",
-        items: [
-            { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
-            { label: "Recruitment", icon: Briefcase, href: "/recruitment" },
-            { label: "Sponsorships", icon: Handshake, href: "/sponsorship" },
-        ]
-    },
-    {
-        label: "Portals",
-        items: [
-            { label: "User Profile", icon: User, href: "/profile" },
-            { label: "Organizer Dashboard", icon: LayoutDashboard, href: "/organizer/dashboard" },
-        ]
-    }
-];
+const NAV_ITEMS = {
+    Common: [
+        {
+            label: "Explore",
+            items: [
+                { label: "Event Hub", icon: Calendar, href: "/events" },
+                { label: "Venue Map", icon: Map, href: "/map" },
+                { label: "Institutions", icon: Building2, href: "/institutions" },
+            ]
+        }
+    ],
+    Participant: [
+        {
+            label: "Compete",
+            items: [
+                { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
+                { label: "Team Builder", icon: Users, href: "/teams" },
+                { label: "Rating System", icon: Star, href: "/rating" },
+            ]
+        },
+        {
+            label: "Network",
+            items: [
+                { label: "Community", icon: Users, href: "/people" },
+                { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
+            ]
+        },
+        {
+            label: "Resources",
+            items: [
+                { label: "Free Resources", icon: BookOpen, href: "/resources" },
+                { label: "Paid Resources", icon: Star, href: "/resources/paid" },
+            ]
+        }
+    ],
+    Organizer: [
+        {
+            label: "Compete",
+            items: [
+                { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
+            ]
+        },
+        {
+            label: "Network",
+            items: [
+                { label: "Community", icon: Users, href: "/people" },
+                { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
+                { label: "Sponsorships", icon: Handshake, href: "/dashboard" },
+            ]
+        },
+        {
+            label: "Portals",
+            items: [
+                { label: "Organizer Dashboard", icon: LayoutDashboard, href: "/organizer/dashboard" },
+            ]
+        }
+    ],
+    Sponsor: [
+        {
+            label: "Compete",
+            items: [
+                { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
+            ]
+        },
+        {
+            label: "Network",
+            items: [
+                { label: "Community", icon: Users, href: "/people" },
+                { label: "Sponsorships", icon: Handshake, href: "/dashboard" },
+            ]
+        }
+    ],
+    Recruiter: [
+        {
+            label: "Compete",
+            items: [
+                { label: "Leaderboard", icon: Trophy, href: "/leaderboard" },
+            ]
+        },
+        {
+            label: "Network",
+            items: [
+                { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
+                { label: "Community", icon: Users, href: "/people" },
+                { label: "Recruitment", icon: Briefcase, href: "/recruitment" },
+            ]
+        }
+    ]
+};
 
 export function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -54,6 +110,7 @@ export function Navbar() {
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const { currentUser, logout, initAuth } = useStore();
+    const [notificationOpen, setNotificationOpen] = useState(false);
 
     useEffect(() => {
         initAuth();
@@ -61,6 +118,12 @@ export function Navbar() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [initAuth]);
+
+    const role = currentUser?.role || "Participant";
+    const navItems = [
+        ...NAV_ITEMS.Common,
+        ...(NAV_ITEMS[role as keyof typeof NAV_ITEMS] || NAV_ITEMS.Participant)
+    ];
 
     return (
         <>
@@ -76,9 +139,8 @@ export function Navbar() {
                         Compete<span className="text-accent1 group-hover:text-accent2 transition-colors">X</span>
                     </Link>
 
-                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
-                        {NAV_ITEMS.map((group) => (
+                        {navItems.map((group) => (
                             <div
                                 key={group.label}
                                 className="relative group"
@@ -119,10 +181,23 @@ export function Navbar() {
                     {/* Action Core */}
                     <div className="hidden md:flex items-center gap-6">
                         {/* Notification Bell */}
-                        <button className="relative group p-2 rounded-full hover:bg-white/5 transition-colors">
-                            <Bell className="w-5 h-5 text-gray-400 group-hover:text-accent2 transition-colors" />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-accent1 rounded-full animate-pulse shadow-[0_0_10px_#00E5FF]" />
-                        </button>
+                        {currentUser && (
+                            <div className="relative">
+                                <button
+                                    onClick={() => setNotificationOpen(!notificationOpen)}
+                                    className="relative group p-2 rounded-full hover:bg-white/5 transition-colors"
+                                >
+                                    <Bell className="w-5 h-5 text-gray-400 group-hover:text-accent2 transition-colors" />
+                                    <span className="absolute top-2 right-2 w-2 h-2 bg-accent1 rounded-full animate-pulse shadow-[0_0_10px_#00E5FF]" />
+                                </button>
+
+                                <AnimatePresence>
+                                    {notificationOpen && (
+                                        <NotificationsDropdown onClose={() => setNotificationOpen(false)} />
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        )}
 
                         <div className="h-6 w-px bg-white/10" />
 
@@ -157,7 +232,7 @@ export function Navbar() {
                                                 </Link>
                                                 {(currentUser.role === 'Organizer' || currentUser.role === 'Sponsor' || currentUser.role === 'Recruiter') && (
                                                     <Link
-                                                        href={currentUser.role === 'Organizer' ? '/organizer/dashboard' : currentUser.role === 'Sponsor' ? '/sponsorship' : '/recruitment'}
+                                                        href={currentUser.role === 'Organizer' ? '/organizer/dashboard' : currentUser.role === 'Sponsor' ? '/sponsorship' : '/people'}
                                                         onClick={() => setUserMenuOpen(false)}
                                                         className="flex items-center gap-2 p-2 hover:bg-white/5 rounded text-sm text-gray-300 hover:text-white"
                                                     >
@@ -219,7 +294,7 @@ export function Navbar() {
                         </div>
 
                         <div className="flex-grow space-y-8">
-                            {NAV_ITEMS.map((group) => (
+                            {navItems.map((group) => (
                                 <div key={group.label} className="space-y-4">
                                     <h4 className="text-accent1 text-xs font-bold uppercase tracking-widest border-b border-accent1/20 pb-2">
                                         {group.label}

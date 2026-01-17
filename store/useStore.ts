@@ -22,7 +22,9 @@ interface AppState {
 
     // Chat
     messages: ChatMessage[];
-    addMessage: (msg: ChatMessage) => void;
+    activeDirectMessageUser: User | null;
+    setActiveDirectMessageUser: (user: User | null) => void;
+    addMessage: (msg: Omit<ChatMessage, "id" | "timestamp" | "recipientId">) => void;
 }
 
 // Mock initial data handling... in real app would be API calls
@@ -48,7 +50,7 @@ export const useStore = create<AppState>((set, get) => ({
                 }
             }
         }
-        
+
         // Fallback to mock users
         const existingUser = USERS.find(u => u.email === email);
         const user = existingUser || { ...USERS[0], email, name: email.split('@')[0] };
@@ -123,5 +125,17 @@ export const useStore = create<AppState>((set, get) => ({
     }),
 
     messages: [],
-    addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
+    activeDirectMessageUser: null,
+    setActiveDirectMessageUser: (user) => set({ activeDirectMessageUser: user }),
+    addMessage: (msg) => set((state) => ({
+        messages: [
+            ...state.messages,
+            {
+                ...msg,
+                id: Date.now().toString(),
+                timestamp: new Date().toISOString(),
+                recipientId: msg.channel === "Direct" ? state.activeDirectMessageUser?.id : undefined
+            }
+        ]
+    })),
 }));

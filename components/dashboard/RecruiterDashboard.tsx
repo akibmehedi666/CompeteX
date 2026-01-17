@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Briefcase, Search, UserCheck, Star, Users, Download, MessageSquare } from "lucide-react";
 import { User } from "@/types";
 import { cn } from "@/lib/utils";
+import { EventWinnersFeed } from "@/components/dashboard/EventWinnersFeed";
 
 interface RecruiterDashboardProps {
     user: User;
@@ -78,10 +79,10 @@ export function RecruiterDashboard({ user }: RecruiterDashboardProps) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                            { name: "Sarah Connor", role: "Full Stack Dev", skill: "React, Node", match: "98%" },
-                            { name: "John Wick", role: "Cybersecurity", skill: "Pen Testing", match: "95%" },
-                            { name: "Ellen Ripley", role: "DevOps Eng", skill: "AWS, Docker", match: "92%" },
-                            { name: "Tony Stark", role: "AI Engineer", skill: "Python, PyTorch", match: "99%" },
+                            { name: "Nusrat Jahan", role: "Full Stack Dev", skill: "React, Node", match: "98%" },
+                            { name: "Rahim Ahmed", role: "Cybersecurity", skill: "Pen Testing", match: "95%" },
+                            { name: "Fatima Begum", role: "DevOps Eng", skill: "AWS, Docker", match: "92%" },
+                            { name: "Tanvir Hasan", role: "AI Engineer", skill: "Python, PyTorch", match: "99%" },
                         ].map((candidate, i) => (
                             <motion.div
                                 key={i}
@@ -114,6 +115,9 @@ export function RecruiterDashboard({ user }: RecruiterDashboardProps) {
                             </motion.div>
                         ))}
                     </div>
+
+                    {/* Event Winners Feed */}
+                    <EventWinnersFeed />
                 </div>
 
                 {/* Pipeline Activity */}
@@ -123,9 +127,9 @@ export function RecruiterDashboard({ user }: RecruiterDashboardProps) {
 
                         <div className="space-y-4">
                             {[
-                                { action: "Applied to", job: "Frontend Dev", user: "Alex Chen", time: "2h ago" },
-                                { action: "Interview with", job: "Backend Lead", user: "Sarah Smith", time: "5h ago" },
-                                { action: "Accepted offer", job: "UI Designer", user: "Mike Ross", time: "1d ago" },
+                                { action: "Applied to", job: "Frontend Dev", user: "Sajid Khan", time: "2h ago" },
+                                { action: "Interview with", job: "Backend Lead", user: "Farhana Islam", time: "5h ago" },
+                                { action: "Accepted offer", job: "UI Designer", user: "Abdullah Al Mamun", time: "1d ago" },
                             ].map((item, i) => (
                                 <div key={i} className="flex gap-3 relative pl-4 border-l border-white/10">
                                     <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-purple-500" />

@@ -23,7 +23,7 @@ export function CountdownTimer({ targetDate, className, size = "sm" }: Countdown
         const calculateTime = () => {
             const difference = new Date(targetDate).getTime() - new Date().getTime();
 
-            if (difference <= 0) {
+            if (isNaN(difference) || difference <= 0) {
                 return { days: 0, hours: 0, minutes: 0, seconds: 0, isLive: true };
             }
 
