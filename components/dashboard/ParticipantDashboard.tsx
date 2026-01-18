@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Camera, Edit2, Save, Github, Linkedin, Shield, MapPin, Award, Globe, X } from "lucide-react";
+import { Camera, Edit2, Save, Github, Linkedin, Shield, MapPin, Award, Globe, X, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { User, ProfileVisibility } from "@/types";
@@ -25,7 +25,7 @@ export function ParticipantDashboard({ user, setUser }: ParticipantDashboardProp
     const [tempGithub, setTempGithub] = useState("");
     const [tempLinkedin, setTempLinkedin] = useState("");
     const [tempPortfolio, setTempPortfolio] = useState("");
-    const [activeTab, setActiveTab] = useState<"overview" | "achievements" | "history" | "settings">("overview");
+    const [activeTab, setActiveTab] = useState<"overview" | "career" | "achievements" | "history" | "settings">("overview");
 
     useEffect(() => {
         if (user) {
@@ -173,6 +173,7 @@ export function ParticipantDashboard({ user, setUser }: ParticipantDashboardProp
             <div className="flex gap-2 mb-8 overflow-x-auto">
                 {[
                     { id: "overview", label: "Overview" },
+                    { id: "career", label: "Career Hub" },
                     { id: "achievements", label: "Achievements" },
                     { id: "history", label: "Competition History" },
                     { id: "settings", label: "Privacy Settings" }
@@ -307,6 +308,23 @@ export function ParticipantDashboard({ user, setUser }: ParticipantDashboardProp
                             </div>
                         </div>
                     </>
+                )}
+
+                {activeTab === "career" && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-white/5 border border-white/10 rounded-xl p-12 text-center"
+                    >
+                        <Briefcase className="w-16 h-16 text-accent1 mx-auto mb-6" />
+                        <h2 className="text-3xl font-bold text-white mb-4">Launch Your Career</h2>
+                        <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+                            Discover internships, full-time roles, and mentorship opportunities tailored for you.
+                        </p>
+                        <a href="/jobs" className="inline-block px-8 py-4 bg-accent1 text-black font-bold uppercase tracking-widest rounded-lg hover:bg-white hover:shadow-[0_0_20px_#00E5FF] transition-all">
+                            Explore Career Hub
+                        </a>
+                    </motion.div>
                 )}
 
                 {activeTab === "achievements" && (

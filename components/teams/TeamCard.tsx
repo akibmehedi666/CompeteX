@@ -57,6 +57,7 @@ export function TeamCard({ team, userSkills, onRequestJoin, onMessageTeam, reque
     const hasMatches = matchingSkills.length > 0;
     const isFull = team.members.length >= team.maxMembers;
     const isOpen = team.status === "open" && !isFull;
+    const Link = require("next/link").default;
 
     return (
         <motion.div
@@ -91,7 +92,9 @@ export function TeamCard({ team, userSkills, onRequestJoin, onMessageTeam, reque
 
             {/* Team Header */}
             <div className="mb-4">
-                <h3 className="text-2xl font-bold text-white mb-2">{team.name}</h3>
+                <Link href={`/teams/${team.id}`} className="hover:text-accent1 transition-colors block">
+                    <h3 className="text-2xl font-bold text-white mb-2">{team.name}</h3>
+                </Link>
                 <p className="text-sm text-gray-400 line-clamp-2">{team.description}</p>
             </div>
 
@@ -145,15 +148,17 @@ export function TeamCard({ team, userSkills, onRequestJoin, onMessageTeam, reque
                             className="relative"
                             style={{ marginLeft: index > 0 ? '-12px' : '0' }}
                         >
-                            <div className="w-10 h-10 rounded-full border-2 border-black bg-gradient-to-br from-[#00E5FF]/40 to-[#AAFF00]/40 flex items-center justify-center text-white font-bold text-sm overflow-hidden">
-                                {member.avatar ? (
-                                    <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    member.name.charAt(0).toUpperCase()
-                                )}
-                            </div>
+                            <Link href={`/people/${member.id}`} title={member.name}>
+                                <div className="w-10 h-10 rounded-full border-2 border-black bg-gradient-to-br from-[#00E5FF]/40 to-[#AAFF00]/40 flex items-center justify-center text-white font-bold text-sm overflow-hidden hover:scale-110 transition-transform hover:z-10 hover:border-accent1 cursor-pointer">
+                                    {member.avatar ? (
+                                        <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        member.name.charAt(0).toUpperCase()
+                                    )}
+                                </div>
+                            </Link>
                             {member.role === "leader" && (
-                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#FFB800] rounded-full flex items-center justify-center border border-black">
+                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#FFB800] rounded-full flex items-center justify-center border border-black pointer-events-none">
                                     <span className="text-[8px] text-black font-bold">★</span>
                                 </div>
                             )}

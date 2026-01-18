@@ -7,6 +7,7 @@ import { Navbar } from "@/components/ui/Navbar";
 import { ParticipantDashboard } from "@/components/dashboard/ParticipantDashboard";
 import { SponsorDashboard } from "@/components/dashboard/SponsorDashboard";
 import { RecruiterDashboard } from "@/components/dashboard/RecruiterDashboard";
+import { ChatSystem } from "@/components/features/ChatSystem";
 import { useStore } from "@/store/useStore";
 import { normalizeRole } from "@/lib/auth";
 import { UserRole } from "@/types";
@@ -72,14 +73,23 @@ function DashboardContent() {
         <div className="min-h-screen bg-black pt-24 pb-12 px-6">
             <Navbar />
 
-            {userRole === "Participant" && (
-                <ParticipantDashboard user={user} setUser={setUser} />
-            )}
-            {userRole === "Sponsor" && (
-                <SponsorDashboard user={user} />
-            )}
-            {userRole === "Recruiter" && (
-                <RecruiterDashboard user={user} />
+            {searchParams.get("tab") === "chat" ? (
+                <ChatSystem variant="fullscreen" />
+            ) : (
+                <>
+                    {userRole === "Participant" && (
+                        <ParticipantDashboard user={user} setUser={setUser} />
+                    )}
+                    {userRole === "Sponsor" && (
+                        <SponsorDashboard user={user} />
+                    )}
+                    {userRole === "Recruiter" && (
+                        <RecruiterDashboard user={user} />
+                    )}
+
+                    {/* Floating Widget for non-chat tabs */}
+                    <ChatSystem initialOpen={false} variant="widget" />
+                </>
             )}
         </div>
     );

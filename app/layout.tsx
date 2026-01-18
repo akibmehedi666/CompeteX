@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={cn(outfit.className, "bg-background text-foreground min-h-screen selection:bg-accent1/30")}>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body className={cn(outfit.className, "bg-background text-foreground min-h-screen selection:bg-accent1/30")} suppressHydrationWarning>
         <NextTopLoader color="#00E5FF" height={3} showSpinner={false} />
         <Navbar />
         <main className="relative z-10">

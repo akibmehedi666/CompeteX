@@ -191,21 +191,7 @@ export default function EventDetailsPage() {
                             </ul>
                         </div>
 
-                        {/* Live Leaderboard */}
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                                    <Trophy className="w-5 h-5 text-accent2" /> Live Leaderboard
-                                </h3>
-                                <button
-                                    onClick={() => router.push(`/leaderboard/${event.id}`)}
-                                    className="text-xs font-bold uppercase tracking-widest text-accent1 hover:text-white transition-colors flex items-center gap-1"
-                                >
-                                    View Full Standings <ArrowLeft className="w-3 h-3 rotate-180" />
-                                </button>
-                            </div>
-                            <EventLeaderboard leaderboard={event.leaderboard || []} />
-                        </div>
+
                     </div>
 
                     {/* Timeline */}

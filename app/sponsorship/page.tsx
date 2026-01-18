@@ -2,8 +2,9 @@
 
 import { Navbar } from "@/components/ui/Navbar";
 import { SPONSORSHIP_OPPORTUNITIES } from "@/constants/mockSponsorships";
+import { SPONSOR_COMMUNITY } from "@/constants/mockSponsors";
 import { motion } from "framer-motion";
-import { DollarSign, CheckCircle, Ticket, Users, TrendingUp, Handshake } from "lucide-react";
+import { DollarSign, CheckCircle, Ticket, Users, TrendingUp, Handshake, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SponsorshipPage() {
@@ -140,7 +141,46 @@ export default function SponsorshipPage() {
                         </motion.div>
                     ))}
                 </div>
+                {/* Sponsor Community Section */}
+                <div className="mt-24">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                            <Globe className="w-6 h-6 text-yellow-400" /> Sponsor Community
+                        </h2>
+                        <button className="text-sm text-yellow-500 font-bold hover:text-white transition-colors">
+                            View All Partners
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        {SPONSOR_COMMUNITY.map((sponsor, index) => (
+                            <motion.div
+                                key={sponsor.id}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 hover:border-yellow-500/50 transition-all group"
+                            >
+                                <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center p-3 border border-white/10 group-hover:border-yellow-500 transition-colors">
+                                    {sponsor.logo ? (
+                                        <img src={sponsor.logo} alt={sponsor.name} className="w-full h-full object-contain filter invert opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    ) : (
+                                        <Users className="w-8 h-8 text-gray-700 group-hover:text-yellow-500" />
+                                    )}
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="text-white font-bold text-sm mb-1">{sponsor.name}</h3>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">{sponsor.industry}</p>
+                                </div>
+                                <button className="w-full py-2 bg-black/50 hover:bg-yellow-500 hover:text-black text-xs text-white font-bold rounded transition-colors border border-white/10 hover:border-transparent">
+                                    View Profile
+                                </button>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
+

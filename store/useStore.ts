@@ -19,6 +19,7 @@ interface AppState {
     myTeam: Team | null;
     addToTeam: (user: User) => void;
     removeFromTeam: (userId: string) => void;
+    createTeam: (details: Partial<Team>) => void;
 
     // Chat
     messages: ChatMessage[];
@@ -123,6 +124,14 @@ export const useStore = create<AppState>((set, get) => ({
             }
         };
     }),
+    createTeam: (details) => set((state) => ({
+        myTeam: {
+            ...state.myTeam!,
+            ...details,
+            // Ensure members array is preserved if not in details, or init if null
+            members: state.myTeam?.members || []
+        }
+    })),
 
     messages: [],
     activeDirectMessageUser: null,
