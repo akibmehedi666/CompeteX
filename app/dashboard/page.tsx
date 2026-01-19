@@ -87,6 +87,7 @@ function DashboardContent() {
                     {userRole === "Recruiter" && (
                         <RecruiterDashboard user={user} />
                     )}
+<<<<<<< HEAD
                     {userRole === "Mentor" && (
                         <div className="text-white text-center py-12">
                             <p className="text-lg mb-4">Mentor Dashboard</p>
@@ -96,6 +97,8 @@ function DashboardContent() {
                             </a>
                         </div>
                     )}
+=======
+>>>>>>> 1c1d603a399e8e39a1cc4517dbfa6972a4ea5d5c
 
                     {/* Floating Widget for non-chat tabs */}
                     <ChatSystem initialOpen={false} variant="widget" />
