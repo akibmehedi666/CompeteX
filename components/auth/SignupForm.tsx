@@ -5,17 +5,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { RegistrationSchema, RegistrationData } from "@/types/auth";
-import { Check, ChevronRight, ChevronLeft, Loader2, User, LayoutDashboard, Building2, Handshake, Briefcase, Lock, Mail, Heading } from "lucide-react";
+import { Check, ChevronRight, ChevronLeft, Loader2, User, LayoutDashboard, Building2, Handshake, Briefcase, Lock, Mail, Heading, GraduationCap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { normalizeRole, getDashboardRoute } from "@/lib/auth";
 import { UserRole } from "@/types";
+import Link from "next/link";
 
 const ROLES = [
     { id: "participant", label: "Participant", icon: User, desc: "Join hackathons & compete" },
     { id: "organizer", label: "Organizer", icon: LayoutDashboard, desc: "Host events & manage teams" },
     { id: "sponsor", label: "Sponsor", icon: Handshake, desc: "Connect with talent & brands" },
     { id: "recruiter", label: "Recruiter", icon: Briefcase, desc: "Find top tech talent" },
+    { id: "mentor", label: "Mentor", icon: GraduationCap, desc: "Share knowledge & guide others" },
 ] as const;
 
 export function SignupForm() {
@@ -58,7 +60,7 @@ export function SignupForm() {
 
         // Normalize role to match UserRole type (capitalized)
         const normalizedRole = normalizeRole(data.role);
-        
+
         // Create user object matching User type
         const userData = {
             id: `u${Date.now()}`,
@@ -135,7 +137,7 @@ export function SignupForm() {
                             {ROLES.map((r) => (
                                 <div
                                     key={r.id}
-                                    onClick={() => setValue("role", r.id as any)}
+                                    onClick={() => r.id === 'mentor' ? router.push('/mentors/signup') : setValue("role", r.id as any)}
                                     className={cn(
                                         "cursor-pointer relative p-6 rounded-xl border transition-all duration-300 flex flex-col items-center text-center gap-4 group",
                                         role === r.id
@@ -164,149 +166,155 @@ export function SignupForm() {
                                 </div>
                             ))}
                         </div>
+
+
                     </motion.div>
                 )}
 
                 {/* STEP 1: Basic Info */}
-                {step === 1 && (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6 max-w-md mx-auto">
-                        <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-white">Basic Information</h2>
-                            <p className="text-sm text-gray-400">Lets get your account set up.</p>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-400 uppercase">Full Name</label>
-                                <div className="relative">
-                                    <input
-                                        {...register("fullName")}
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
-                                        placeholder="John Doe"
-                                    />
-                                    <User className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
-                                </div>
-                                {errors.fullName && <p className="text-red-500 text-xs">{String(errors.fullName.message)}</p>}
+                {
+                    step === 1 && (
+                        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6 max-w-md mx-auto">
+                            <div className="text-center mb-6">
+                                <h2 className="text-2xl font-bold text-white">Basic Information</h2>
+                                <p className="text-sm text-gray-400">Lets get your account set up.</p>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-400 uppercase">Email Address</label>
-                                <div className="relative">
-                                    <input
-                                        {...register("email")}
-                                        type="email"
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
-                                        placeholder="john@example.com"
-                                    />
-                                    <Mail className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase">Full Name</label>
+                                    <div className="relative">
+                                        <input
+                                            {...register("fullName")}
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
+                                            placeholder="John Doe"
+                                        />
+                                        <User className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
+                                    </div>
+                                    {errors.fullName && <p className="text-red-500 text-xs">{String(errors.fullName.message)}</p>}
                                 </div>
-                                {errors.email && <p className="text-red-500 text-xs">{String(errors.email.message)}</p>}
-                            </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-400 uppercase">Password</label>
-                                <div className="relative">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase">Email Address</label>
+                                    <div className="relative">
+                                        <input
+                                            {...register("email")}
+                                            type="email"
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
+                                            placeholder="john@example.com"
+                                        />
+                                        <Mail className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
+                                    </div>
+                                    {errors.email && <p className="text-red-500 text-xs">{String(errors.email.message)}</p>}
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase">Password</label>
+                                    <div className="relative">
+                                        <input
+                                            {...register("password")}
+                                            type="password"
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
+                                            placeholder="••••••••"
+                                        />
+                                        <Lock className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
+                                    </div>
+                                    {/* Password Strength Meter */}
+                                    <div className="flex gap-1 h-1 mt-2">
+                                        {[1, 2, 3, 4].map(i => (
+                                            <div key={i} className={cn("flex-1 rounded-full transition-colors", strength >= i ? (strength === 4 ? "bg-accent2" : "bg-yellow-400") : "bg-white/5")} />
+                                        ))}
+                                    </div>
+                                    {errors.password && <p className="text-red-500 text-xs">{String(errors.password.message)}</p>}
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase">Confirm Password</label>
                                     <input
-                                        {...register("password")}
+                                        {...register("confirmPassword")}
                                         type="password"
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 pl-10 text-white focus:border-accent1 focus:outline-none transition-colors"
+                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none transition-colors"
                                         placeholder="••••••••"
                                     />
-                                    <Lock className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" />
+                                    {(errors as any).confirmPassword && <p className="text-red-500 text-xs">{String((errors as any).confirmPassword.message)}</p>}
                                 </div>
-                                {/* Password Strength Meter */}
-                                <div className="flex gap-1 h-1 mt-2">
-                                    {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className={cn("flex-1 rounded-full transition-colors", strength >= i ? (strength === 4 ? "bg-accent2" : "bg-yellow-400") : "bg-white/5")} />
-                                    ))}
-                                </div>
-                                {errors.password && <p className="text-red-500 text-xs">{String(errors.password.message)}</p>}
                             </div>
-
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-400 uppercase">Confirm Password</label>
-                                <input
-                                    {...register("confirmPassword")}
-                                    type="password"
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none transition-colors"
-                                    placeholder="••••••••"
-                                />
-                                {(errors as any).confirmPassword && <p className="text-red-500 text-xs">{String((errors as any).confirmPassword.message)}</p>}
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
+                        </motion.div>
+                    )
+                }
 
                 {/* STEP 2: Role Details */}
-                {step === 2 && (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6 max-w-md mx-auto">
-                        <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-white capitalize">{role} Details</h2>
-                            <p className="text-sm text-gray-400">Tell us more about your background.</p>
-                        </div>
-
-                        {/* Participant Fields */}
-                        {role === "participant" && (
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-400 uppercase">Skills (Comma sep)</label>
-                                    <input
-                                        placeholder="React, Python, Design..."
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
-                                        onChange={(e) => setValue("skills", e.target.value.split(',').map(s => s.trim()))}
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-400 uppercase">GitHub URL</label>
-                                    <input
-                                        {...register("githubUrl")}
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
-                                        placeholder="https://github.com/..."
-                                    />
-                                </div>
+                {
+                    step === 2 && (
+                        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6 max-w-md mx-auto">
+                            <div className="text-center mb-6">
+                                <h2 className="text-2xl font-bold text-white capitalize">{role} Details</h2>
+                                <p className="text-sm text-gray-400">Tell us more about your background.</p>
                             </div>
-                        )}
 
-                        {/* Organizer Fields */}
-                        {role === "organizer" && (
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-400 uppercase">Organization Name</label>
-                                    <input
-                                        {...register("organizationName")}
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
-                                    />
+                            {/* Participant Fields */}
+                            {role === "participant" && (
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-gray-400 uppercase">Skills (Comma sep)</label>
+                                        <input
+                                            placeholder="React, Python, Design..."
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
+                                            onChange={(e) => setValue("skills", e.target.value.split(',').map(s => s.trim()))}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-gray-400 uppercase">GitHub URL</label>
+                                        <input
+                                            {...register("githubUrl")}
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
+                                            placeholder="https://github.com/..."
+                                        />
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-400 uppercase">Website</label>
-                                    <input
-                                        {...register("website")}
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
-                                    />
-                                </div>
-                                <div className="flex items-center gap-3 p-4 border border-white/10 rounded-lg bg-white/5">
-                                    <input
-                                        type="checkbox"
-                                        id="isInstitution"
-                                        {...register("isInstitution")}
-                                        className="w-5 h-5 rounded border-gray-600 text-accent1 focus:ring-accent1 bg-black"
-                                    />
-                                    <label htmlFor="isInstitution" className="text-sm text-gray-300">
-                                        Is this an Official Institution / University?
-                                    </label>
-                                </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Add other role fields similarly... just placeholder for brevity as per prompt specific examples */}
-                        {(role === "sponsor" || role === "recruiter") && (
-                            <div className="p-4 border border-dashed border-white/20 rounded text-center text-gray-500 text-sm">
-                                Additional fields for {role} would go here.
-                                <br /> (Simulated for Prototype)
-                            </div>
-                        )}
-                    </motion.div>
-                )}
+                            {/* Organizer Fields */}
+                            {role === "organizer" && (
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-gray-400 uppercase">Organization Name</label>
+                                        <input
+                                            {...register("organizationName")}
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-gray-400 uppercase">Website</label>
+                                        <input
+                                            {...register("website")}
+                                            className="w-full bg-black/40 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-accent1 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="flex items-center gap-3 p-4 border border-white/10 rounded-lg bg-white/5">
+                                        <input
+                                            type="checkbox"
+                                            id="isInstitution"
+                                            {...register("isInstitution")}
+                                            className="w-5 h-5 rounded border-gray-600 text-accent1 focus:ring-accent1 bg-black"
+                                        />
+                                        <label htmlFor="isInstitution" className="text-sm text-gray-300">
+                                            Is this an Official Institution / University?
+                                        </label>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Add other role fields similarly... just placeholder for brevity as per prompt specific examples */}
+                            {(role === "sponsor" || role === "recruiter") && (
+                                <div className="p-4 border border-dashed border-white/20 rounded text-center text-gray-500 text-sm">
+                                    Additional fields for {role} would go here.
+                                    <br /> (Simulated for Prototype)
+                                </div>
+                            )}
+                        </motion.div>
+                    )
+                }
 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-8 border-t border-white/5 max-w-md mx-auto">
@@ -337,7 +345,7 @@ export function SignupForm() {
                     )}
                 </div>
 
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }

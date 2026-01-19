@@ -22,6 +22,12 @@ const NAV_ITEMS = {
                 { label: "Event Hub", icon: Calendar, href: "/events" },
                 { label: "Venue Map", icon: Map, href: "/map" },
                 { label: "Institutions", icon: Building2, href: "/institutions" },
+            ]
+        },
+        {
+            label: "Careers",
+            items: [
+                { label: "Job Board", icon: Briefcase, href: "/jobs" },
                 { label: "Find Mentors", icon: Users, href: "/mentors" },
             ]
         }
@@ -83,6 +89,7 @@ const NAV_ITEMS = {
             label: "Network",
             items: [
                 { label: "Community", icon: Users, href: "/people" },
+                { label: "Messaging", icon: MessageSquare, href: "/dashboard?tab=chat" },
                 { label: "Sponsorships", icon: Handshake, href: "/sponsorship" },
             ]
         }

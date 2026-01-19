@@ -14,6 +14,7 @@ interface ResourceUploadModalProps {
 export function ResourceUploadModal({ isOpen, onClose, onUpload }: ResourceUploadModalProps) {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("Guide");
+    const [topic, setTopic] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -63,6 +64,7 @@ export function ResourceUploadModal({ isOpen, onClose, onUpload }: ResourceUploa
                 id: crypto.randomUUID(),
                 name,
                 category,
+                topic,
                 description,
                 fileName: file.name,
                 fileType: file.type,
@@ -84,6 +86,7 @@ export function ResourceUploadModal({ isOpen, onClose, onUpload }: ResourceUploa
     const resetForm = () => {
         setName("");
         setCategory("Guide");
+        setTopic("");
         setDescription("");
         setFile(null);
         setError(null);
@@ -150,6 +153,16 @@ export function ResourceUploadModal({ isOpen, onClose, onUpload }: ResourceUploa
                                         <option value="Assets">Assets</option>
                                         <option value="Other">Other</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Topic</label>
+                                    <input
+                                        type="text"
+                                        value={topic}
+                                        onChange={(e) => setTopic(e.target.value)}
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-accent2 focus:outline-none transition-colors"
+                                        placeholder="e.g., React, Design..."
+                                    />
                                 </div>
                             </div>
 

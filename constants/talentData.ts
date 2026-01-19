@@ -26,7 +26,7 @@ export const TALENT_POOL: Talent[] = [
         university: "UIU",
         location: "Dhaka, Bangladesh", // Added location
         skills: ["React", "TypeScript", "Node.js"],
-        competitions: ["Global AI Challenge", "Neon City Hackathon"],
+        competitions: ["Hackathons", "Tech Sprints"],
         avatar: "/oshru.jpg",
         details: { availability: "Open to Work", rate: "$85/hr", experience: "4 Years" },
         stats: { rank: 12, points: 4500, eventsWon: 5, wins: 5, avgScore: 92, topAchievement: "Neon City Hack Winner" }
@@ -39,7 +39,7 @@ export const TALENT_POOL: Talent[] = [
         university: "UIU",
         location: "Dhaka, Bangladesh",
         skills: ["Figma", "UI/UX", "Three.js"],
-        competitions: ["Design Wars", "Neon City Hackathon"],
+        competitions: ["Design Wars", "UI/UX Bootcamps"],
         avatar: "/toufiq.jpg",
         details: { availability: "Busy", rate: "$95/hr", experience: "6 Years" },
         stats: { rank: 45, points: 2100, eventsWon: 2, wins: 2, avgScore: 88, topAchievement: "Best UI Design 2024" }
@@ -52,7 +52,7 @@ export const TALENT_POOL: Talent[] = [
         university: "UIU",
         location: "Dhaka, Bangladesh",
         skills: ["Python", "Django", "PostgreSQL"],
-        competitions: ["Global AI Challenge", "Inter-University Coding Battle"],
+        competitions: ["Coding Battles", "Algorithm Arenas"],
         avatar: "/partha.jpg",
         details: { availability: "Hiring", rate: "$120/hr", experience: "8 Years" },
         stats: { rank: 8, points: 5200, eventsWon: 7, wins: 7, avgScore: 96, topAchievement: "Global Algo Champ" }
@@ -65,7 +65,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Georgia Tech",
         location: "Atlanta, GA",
         skills: ["Rust", "WASM", "Systems"],
-        competitions: ["Systems Design Olympiad"],
+        competitions: ["Olympiads", "DevOp Sprints"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena",
         details: { availability: "Open to Work", rate: "$100/hr", experience: "3 Years" },
         stats: { rank: 23, points: 3400, eventsWon: 3, wins: 3, avgScore: 91, topAchievement: "Systems Architect Award" }
@@ -78,7 +78,7 @@ export const TALENT_POOL: Talent[] = [
         university: "CMU",
         location: "Pittsburgh, PA",
         skills: ["PyTorch", "TensorFlow", "CV"],
-        competitions: ["Global AI Challenge", "Neon City Hackathon"],
+        competitions: ["AI Model-Offs", "Data Science Bowls"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
         details: { availability: "Open to Work", rate: "$110/hr", experience: "5 Years" },
         stats: { rank: 5, points: 6000, eventsWon: 8, wins: 8, avgScore: 98, topAchievement: "AI Summit Gold" }
@@ -91,7 +91,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Oxford",
         location: "Oxford, UK",
         skills: ["Vue.js", "Nuxt", "Tailwind"],
-        competitions: ["Web Wiz 2026"],
+        competitions: ["Datathons", "App Showcases"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
         details: { availability: "Busy", rate: "$70/hr", experience: "2 Years" },
         stats: { rank: 67, points: 1800, eventsWon: 1, wins: 1, avgScore: 85 }
@@ -104,7 +104,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Tokyo Univ",
         location: "Tokyo, JP",
         skills: ["Unity", "C#", "Blender"],
-        competitions: ["Game Jam X"],
+        competitions: ["Game Jams", "E-sports Leagues"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Yuki",
         details: { availability: "Open to Work", rate: "$90/hr", experience: "4 Years" },
         stats: { rank: 34, points: 2900, eventsWon: 4, wins: 4, avgScore: 93, topAchievement: "Indie Game Jam Winner" }
@@ -117,7 +117,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Waterloo",
         location: "Waterloo, CA",
         skills: ["Cybersecurity", "Ethical Hacking", "Linux"],
-        competitions: ["Capture The Flag World Cup"],
+        competitions: ["Capture The Flag", "Cybersecurity Showdowns"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Omar",
         details: { availability: "Hiring", rate: "$130/hr", experience: "7 Years" },
         stats: { rank: 15, points: 4100, eventsWon: 6, wins: 6, avgScore: 95, topAchievement: "CTF Grandmaster" }
@@ -130,7 +130,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Harvard",
         location: "Cambridge, MA",
         skills: ["Product", "Agile", "Jira"],
-        competitions: ["Product Hunt Hackathon"],
+        competitions: ["Innovation Challenges", "Startup Grinds"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie",
         details: { availability: "Open to Work", rate: "$105/hr", experience: "5 Years" },
         stats: { rank: 89, points: 1200, eventsWon: 0, wins: 0, avgScore: 82 }
@@ -143,7 +143,7 @@ export const TALENT_POOL: Talent[] = [
         university: "USP",
         location: "São Paulo, BR",
         skills: ["Go", "Kubernetes", "Cloud"],
-        competitions: ["Cloud Native Challenge"],
+        competitions: ["Cloud Architecture Wars", "DevOp Sprints"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lucas",
         details: { availability: "Busy", rate: "$115/hr", experience: "6 Years" },
         stats: { rank: 28, points: 3100, eventsWon: 3, wins: 3, avgScore: 90, topAchievement: "Cloud Native Expert" }
@@ -156,7 +156,7 @@ export const TALENT_POOL: Talent[] = [
         university: "Imperial",
         location: "London, UK",
         skills: ["R", "Statistics", "SQL"],
-        competitions: ["Data Science Bowl"],
+        competitions: ["Data Science Bowls", "Datathons"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
         details: { availability: "Open to Work", rate: "$95/hr", experience: "3 Years" },
         stats: { rank: 56, points: 2000, eventsWon: 2, wins: 2, avgScore: 87 }
@@ -169,7 +169,7 @@ export const TALENT_POOL: Talent[] = [
         university: "UCLA",
         location: "Los Angeles, CA",
         skills: ["Swift", "iOS", "SwiftUI"],
-        competitions: ["Mobile App Innovation Award"],
+        competitions: ["Mobile App Derbies", "App Showcases"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ryan",
         details: { availability: "Open to Work", rate: "$100/hr", experience: "4 Years" },
         stats: { rank: 41, points: 2600, eventsWon: 2, wins: 2, avgScore: 89, topAchievement: "App Store Feature" }
@@ -182,7 +182,7 @@ export const TALENT_POOL: Talent[] = [
         university: "KAUST",
         location: "Thuwal, SA",
         skills: ["Angular", "RxJS", "SCSS"],
-        competitions: ["Web Wiz 2026"],
+        competitions: ["Scripting Sprints", "Hackathons"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fatima",
         details: { availability: "Busy", rate: "$80/hr", experience: "3 Years" },
         stats: { rank: 72, points: 1500, eventsWon: 1, wins: 1, avgScore: 86 }
@@ -195,7 +195,7 @@ export const TALENT_POOL: Talent[] = [
         university: "ETH Zurich",
         location: "Zurich, CH",
         skills: ["C++", "Embedded", "IoT"],
-        competitions: ["IoT Smart City Challenge"],
+        competitions: ["Hardware Hacks", "Innovation Challenges"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Tom",
         details: { availability: "Hiring", rate: "$140/hr", experience: "9 Years" },
         stats: { rank: 19, points: 3800, eventsWon: 4, wins: 4, avgScore: 94, topAchievement: "IoT Innovation Prize" }
@@ -208,7 +208,7 @@ export const TALENT_POOL: Talent[] = [
         university: "IIT Bombay",
         location: "Mumbai, IN",
         skills: ["Solidity", "Web3", "Ethereum"],
-        competitions: ["Global Blockchain Summit"],
+        competitions: ["Blockchain Battles", "Fintech Face-offs"],
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Anita",
         details: { availability: "Open to Work", rate: "$125/hr", experience: "5 Years" },
         stats: { rank: 9, points: 4900, eventsWon: 6, wins: 6, avgScore: 97, topAchievement: "DeFi Hack Winner" }

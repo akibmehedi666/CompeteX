@@ -1,4 +1,4 @@
-"use client";
+import Link from "next/link";
 
 import { motion } from "framer-motion";
 import { Briefcase, Search, UserCheck, Star, Users, Download, MessageSquare } from "lucide-react";
@@ -23,9 +23,11 @@ export function RecruiterDashboard({ user }: RecruiterDashboardProps) {
                     <button className="px-6 py-2 bg-purple-600 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-purple-500 transition-all shadow-[0_0_15px_rgba(147,51,234,0.3)] flex items-center gap-2">
                         <Search className="w-4 h-4" /> scout Talent
                     </button>
-                    <button className="px-6 py-2 bg-white/5 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-white/10 transition-all border border-white/10">
-                        Post Job
-                    </button>
+                    <Link href="/jobs/post">
+                        <button className="px-6 py-2 bg-white/5 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-white/10 transition-all border border-white/10">
+                            Post Job
+                        </button>
+                    </Link>
                 </div>
             </div>
 

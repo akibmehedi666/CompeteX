@@ -6,14 +6,15 @@ import { cn } from "@/lib/utils";
 import { EventCreationWizard } from "@/components/organizer/EventCreationWizard";
 import { ParticipantManager } from "@/components/organizer/ParticipantManager";
 import { EventAnalytics } from "@/components/organizer/EventAnalytics";
-import { SponsorshipRequests } from "@/components/organizer/SponsorshipRequests";
+
 import { SponsorDiscovery } from "@/components/organizer/SponsorDiscovery";
+import { JudgeDashboard } from "@/components/organizer/JudgeDashboard";
 
 import { OrganizerProfile } from "@/components/organizer/OrganizerProfile";
 import { ManageEvent } from "@/components/organizer/ManageEvent";
 
 export function OrganizerPortal() {
-    const [activeTab, setActiveTab] = useState<"overview" | "events" | "participants" | "analytics" | "manage" | "profile" | "sponsors">("overview");
+    const [activeTab, setActiveTab] = useState<"overview" | "events" | "participants" | "analytics" | "manage" | "profile" | "sponsors" | "judges">("overview");
     const [showWizard, setShowWizard] = useState(false);
 
     if (showWizard) {
@@ -27,12 +28,18 @@ export function OrganizerPortal() {
 
     const renderContent = () => {
         switch (activeTab) {
-            case "overview": return <OverviewTab onManage={() => setActiveTab("manage")} onAnalytics={() => setActiveTab("analytics")} />;
+            case "overview": return <OverviewTab
+                onManage={() => setActiveTab("manage")}
+                onAnalytics={() => setActiveTab("analytics")}
+                onParticipants={() => setActiveTab("participants")}
+                onJudges={() => setActiveTab("judges")}
+            />;
             case "participants": return <ParticipantManager />;
             case "analytics": return <EventAnalytics />;
             case "manage": return <ManageEvent onEdit={() => setActiveTab("events")} />;
             case "profile": return <OrganizerProfile />;
             case "sponsors": return <SponsorDiscovery />;
+            case "judges": return <JudgeDashboard />;
             default: return <div className="text-white">Module coming soon...</div>;
         }
     };
@@ -113,7 +120,7 @@ function TabButton({ active, onClick, icon: Icon, label, disabled }: any) {
     );
 }
 
-function OverviewTab({ onAnalytics, onManage }: { onAnalytics: () => void, onManage: () => void }) {
+function OverviewTab({ onAnalytics, onManage, onParticipants, onJudges }: { onAnalytics: () => void, onManage: () => void, onParticipants: () => void, onJudges: () => void }) {
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -164,15 +171,14 @@ function OverviewTab({ onAnalytics, onManage }: { onAnalytics: () => void, onMan
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 h-fit">
                     <h3 className="font-bold text-white mb-4">Quick Actions</h3>
                     <div className="space-y-3">
-                        <QuickActionButton icon={Users} label="Review New Applications" badge="12" />
-                        <QuickActionButton icon={Calendar} label="Update Schedule" />
-                        <QuickActionButton icon={LayoutDashboard} label="Judge Dashboard" />
+                        <QuickActionButton onClick={onParticipants} icon={Users} label="Review New Applications" badge="12" />
+
+                        <QuickActionButton onClick={onJudges} icon={LayoutDashboard} label="Judge Dashboard" />
                     </div>
                 </div>
             </div>
 
             {/* Sponsorship Requests Section */}
-            <SponsorshipRequests />
 
             {/* Recent Activity */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
@@ -212,9 +218,9 @@ function StatBox({ label, value }: { label: string, value: string }) {
     );
 }
 
-function QuickActionButton({ icon: Icon, label, badge }: any) {
+function QuickActionButton({ icon: Icon, label, badge, onClick }: any) {
     return (
-        <button className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors group">
+        <button onClick={onClick} className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors group">
             <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
                     <Icon className="w-4 h-4" />

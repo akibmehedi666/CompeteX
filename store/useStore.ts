@@ -19,6 +19,7 @@ interface AppState {
     myTeam: Team | null;
     addToTeam: (user: User) => void;
     removeFromTeam: (userId: string) => void;
+    createTeam: (details: Partial<Team>) => void;
 
     // Chat
     messages: ChatMessage[];
@@ -123,8 +124,57 @@ export const useStore = create<AppState>((set, get) => ({
             }
         };
     }),
+    createTeam: (details) => set((state) => ({
+        myTeam: {
+            ...state.myTeam!,
+            ...details,
+            // Ensure members array is preserved if not in details, or init if null
+            members: state.myTeam?.members || []
+        }
+    })),
 
-    messages: [],
+    messages: [
+        {
+            id: "msg1",
+            senderId: "u3",
+            recipientId: "u1",
+            content: "Hello! I reviewed your proposal.",
+            timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(), // 5 minutes ago
+            channel: "Direct"
+        },
+        {
+            id: "msg2",
+            senderId: "u1",
+            recipientId: "u3",
+            content: "Thank you, sir. Any feedback?",
+            timestamp: new Date(Date.now() - 3 * 60 * 1000).toISOString(), // 3 minutes ago
+            channel: "Direct"
+        },
+        {
+            id: "msg3",
+            senderId: "u3",
+            recipientId: "u1",
+            content: "Yes, it looks good. Can we meet tomorrow to discuss the methodology?",
+            timestamp: new Date(Date.now() - 1 * 60 * 1000).toISOString(), // 1 minute ago
+            channel: "Direct"
+        },
+        {
+            id: "msg4",
+            senderId: "u2",
+            recipientId: "u1",
+            content: "I sent the dataset.",
+            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+            channel: "Direct"
+        },
+        {
+            id: "msg5",
+            senderId: "u4",
+            recipientId: "u1",
+            content: "New meeting scheduled.",
+            timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+            channel: "Direct"
+        }
+    ] as ChatMessage[],
     activeDirectMessageUser: null,
     setActiveDirectMessageUser: (user) => set({ activeDirectMessageUser: user }),
     addMessage: (msg) => set((state) => ({

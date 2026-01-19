@@ -1,9 +1,9 @@
 "use client";
 
 import { Navbar } from "@/components/ui/Navbar";
-import { SPONSORSHIP_OPPORTUNITIES } from "@/constants/mockSponsorships";
+import { SPONSOR_COMMUNITY } from "@/constants/mockSponsors";
 import { motion } from "framer-motion";
-import { DollarSign, CheckCircle, Ticket, Users, TrendingUp, Handshake } from "lucide-react";
+import { DollarSign, CheckCircle, Ticket, Users, TrendingUp, Handshake, Globe, Target, Award, BarChart3, Zap, Eye, Briefcase, Star, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SponsorshipPage() {
@@ -67,80 +67,280 @@ export default function SponsorshipPage() {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                        <Ticket className="w-6 h-6 text-yellow-400" /> Active Opportunities
-                    </h2>
-                    <span className="text-sm text-gray-500">{SPONSORSHIP_OPPORTUNITIES.length} Offers Available</span>
+                {/* Why Sponsor Section */}
+                <div className="mb-24">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Why Sponsor on <span className="text-yellow-400">CompeteX</span>?
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Connect with the brightest minds in tech competitions. Build your brand, discover talent, and drive innovation.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <Target className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Targeted Talent Pipeline</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Access top performers from hackathons, coding contests, and robotics competitions. Filter by skills, achievements, and competition history to find your ideal candidates.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <Eye className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Maximum Brand Visibility</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Get your logo on event pages, leaderboards, and winner announcements. Reach thousands of students, developers, and tech enthusiasts across the platform.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <BarChart3 className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Data-Driven Insights</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Track event performance, audience reach, and engagement metrics. Make informed decisions with detailed analytics on participant demographics and event success.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <Zap className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Smart Matching</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Our platform automatically matches your sponsorship criteria with relevant events. Filter by category, audience size, location, and event type to find perfect fits.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <Briefcase className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Recruitment Opportunities</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Connect directly with top performers through our integrated messaging system. Build relationships with future talent and create a pipeline for internships and full-time roles.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 mb-4 group-hover:bg-yellow-500/30 transition-colors">
+                                <Award className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-3">Flexible Sponsorship Tiers</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Choose from Title, Platinum, Gold, Silver, Bronze, or Partner levels. Customize your sponsorship package with workshops, prizes, cloud credits, or direct funding.
+                            </p>
+                        </motion.div>
+                    </div>
                 </div>
 
-                {/* Opportunity Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {SPONSORSHIP_OPPORTUNITIES.map((offer, index) => (
-                        <motion.div
-                            key={offer.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-[#0F0F0F] border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-colors group relative overflow-hidden"
-                        >
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/5 to-transparent -mr-8 -mt-8 rounded-full" />
+                {/* How It Works Section */}
+                <div className="mb-24">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            How <span className="text-yellow-400">Sponsorship</span> Works
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Simple steps to connect with events and maximize your impact
+                        </p>
+                    </div>
 
-                            <div className="flex items-start justify-between mb-6">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
-                                        <offer.logo className="w-6 h-6 text-white" />
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        {[
+                            {
+                                step: "01",
+                                title: "Create Profile",
+                                description: "Set up your sponsor profile with company details, industry focus, and sponsorship preferences.",
+                                icon: Users
+                            },
+                            {
+                                step: "02",
+                                title: "Define Opportunities",
+                                description: "Post sponsorship roles with budget ranges, categories, and requirements. Set your target audience.",
+                                icon: Target
+                            },
+                            {
+                                step: "03",
+                                title: "Review Applications",
+                                description: "Organizers apply with event details, expected reach, and proposals. Review and negotiate terms.",
+                                icon: CheckCircle
+                            },
+                            {
+                                step: "04",
+                                title: "Launch & Track",
+                                description: "Activate your sponsorship and track performance metrics, engagement, and ROI in real-time.",
+                                icon: TrendingUp
+                            }
+                        ].map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="relative"
+                            >
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all h-full flex flex-col">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 font-bold text-sm">
+                                            {item.step}
+                                        </div>
+                                        <item.icon className="w-6 h-6 text-gray-400" />
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
+                                    <p className="text-gray-400 text-sm leading-relaxed flex-grow">{item.description}</p>
+                                </div>
+                                {index < 3 && (
+                                    <div className="hidden md:block absolute top-1/2 -right-3 z-10">
+                                        <ArrowRight className="w-6 h-6 text-yellow-500/50" />
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Success Stories Section */}
+                <div className="mb-24">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Success <span className="text-yellow-400">Stories</span>
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            See how sponsors have transformed events and discovered exceptional talent
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                company: "TechTitan Corp",
+                                event: "UIU CSE Fest 2026",
+                                result: "Hired 12 top performers",
+                                metric: "500+ applications",
+                                description: "Sponsored a 48-hour hackathon and discovered exceptional AI/ML talent. 8 candidates joined as full-time engineers."
+                            },
+                            {
+                                company: "CloudNet Systems",
+                                event: "BUET RoboCarnival",
+                                result: "85% brand awareness",
+                                metric: "15K+ impressions",
+                                description: "Title sponsorship led to significant brand visibility among robotics enthusiasts and engineering students."
+                            },
+                            {
+                                company: "PixelStream",
+                                event: "Dhaka Design Sprint",
+                                result: "3 interns hired",
+                                metric: "200+ participants",
+                                description: "Workshop sponsorship connected us with creative designers. Built a talent pipeline for future projects."
+                            }
+                        ].map((story, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-2xl p-6 hover:border-yellow-500/50 transition-all group"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-lg font-bold text-white mb-1">{story.company}</h3>
+                                        <p className="text-sm text-gray-400">{story.event}</p>
+                                    </div>
+                                    <Star className="w-5 h-5 text-yellow-500" />
+                                </div>
+                                <p className="text-gray-300 text-sm mb-4 leading-relaxed">{story.description}</p>
+                                <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                                    <div>
+                                        <div className="text-lg font-bold text-yellow-400">{story.result}</div>
+                                        <div className="text-xs text-gray-500">Outcome</div>
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-white">{offer.brandName}</h3>
-                                        <span className="text-xs text-gray-500 uppercase tracking-wider">{offer.industry}</span>
+                                        <div className="text-lg font-bold text-white">{story.metric}</div>
+                                        <div className="text-xs text-gray-500">Reach</div>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <div className="text-lg font-bold text-yellow-400">{offer.budget}</div>
-                                    <span className="text-[10px] text-gray-500 uppercase">Budget</span>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Sponsor Community Section */}
+                <div className="mt-24">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                            <Globe className="w-6 h-6 text-yellow-400" /> Sponsor Community
+                        </h2>
+                        <button className="text-sm text-yellow-500 font-bold hover:text-white transition-colors">
+                            View All Partners
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        {SPONSOR_COMMUNITY.map((sponsor, index) => (
+                            <motion.div
+                                key={sponsor.id}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 hover:border-yellow-500/50 transition-all group"
+                            >
+                                <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center p-3 border border-white/10 group-hover:border-yellow-500 transition-colors">
+                                    {sponsor.logo ? (
+                                        <img src={sponsor.logo} alt={sponsor.name} className="w-full h-full object-contain filter invert opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    ) : (
+                                        <Users className="w-8 h-8 text-gray-700 group-hover:text-yellow-500" />
+                                    )}
                                 </div>
-                            </div>
-
-                            <p className="text-gray-400 text-sm mb-6 h-10 line-clamp-2">
-                                {offer.description}
-                            </p>
-
-                            <div className="space-y-4 mb-6">
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-gray-500">Min Reach</span>
-                                    <span className="text-white font-medium flex items-center gap-1">
-                                        <Users className="w-3 h-3 text-yellow-500" /> {offer.minReach}+
-                                    </span>
+                                <div className="text-center">
+                                    <h3 className="text-white font-bold text-sm mb-1">{sponsor.name}</h3>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">{sponsor.industry}</p>
                                 </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-gray-500">Focus</span>
-                                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-white/10 text-white border border-white/10">
-                                        {offer.focus}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2 mb-6">
-                                {offer.requirements.slice(0, 2).map((req, i) => (
-                                    <span key={i} className="px-2 py-1 text-[10px] text-gray-400 bg-white/5 rounded border border-white/5">
-                                        {req}
-                                    </span>
-                                ))}
-                                {offer.requirements.length > 2 && (
-                                    <span className="px-2 py-1 text-[10px] text-gray-400 bg-white/5 rounded border border-white/5">
-                                        +{offer.requirements.length - 2} more
-                                    </span>
-                                )}
-                            </div>
-
-                            <button className="w-full py-3 bg-white/5 hover:bg-yellow-500 hover:text-black text-white rounded-lg font-bold text-sm uppercase tracking-wider transition-all border border-white/10 hover:border-transparent group-hover:shadow-[0_0_15px_rgba(234,179,8,0.2)]">
-                                Apply Now
-                            </button>
-                        </motion.div>
-                    ))}
+                                <button className="w-full py-2 bg-black/50 hover:bg-yellow-500 hover:text-black text-xs text-white font-bold rounded transition-colors border border-white/10 hover:border-transparent">
+                                    View Profile
+                                </button>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
     );
 }
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Send, Edit, Save, Trash2, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+import { Bell, Send, Edit, Save, Trash2, AlertTriangle, CheckCircle, Clock, Download, Calendar, Octagon } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -175,6 +175,35 @@ export function ManageEvent({ onEdit }: { onEdit?: () => void }) {
                                 <div className="w-10 h-5 bg-gray-700 rounded-full relative cursor-pointer">
                                     <div className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full" />
                                 </div>
+                            </div>
+
+                            <div className="pt-4 border-t border-white/10 space-y-3">
+                                <button className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
+                                            <Download className="w-4 h-4" />
+                                        </div>
+                                        <span className="text-sm font-medium text-gray-300 group-hover:text-white">Export Data</span>
+                                    </div>
+                                </button>
+
+                                <button className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
+                                            <Calendar className="w-4 h-4" />
+                                        </div>
+                                        <span className="text-sm font-medium text-gray-300 group-hover:text-white">Update Schedule</span>
+                                    </div>
+                                </button>
+
+                                <button className="w-full flex items-center justify-between p-3 bg-red-500/10 hover:bg-red-500/20 rounded-xl border border-red-500/20 transition-colors group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center text-red-400 group-hover:text-red-300 transition-colors">
+                                            <Octagon className="w-4 h-4" />
+                                        </div>
+                                        <span className="text-sm font-medium text-red-400 group-hover:text-red-300">Emergency Stop</span>
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     </div>

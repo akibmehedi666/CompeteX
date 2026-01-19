@@ -66,6 +66,7 @@ export interface Team {
     maxMembers: number;
     leaderId: string;
     competition?: string;
+    description?: string;
 }
 
 export interface Institution {
@@ -93,6 +94,7 @@ export interface Resource {
     type: "Video" | "PDF" | "Course";
     isPremium: boolean;
     category: string;
+    topic?: string;
     thumbnail: string;
 }
 

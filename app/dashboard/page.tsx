@@ -7,6 +7,7 @@ import { Navbar } from "@/components/ui/Navbar";
 import { ParticipantDashboard } from "@/components/dashboard/ParticipantDashboard";
 import { SponsorDashboard } from "@/components/dashboard/SponsorDashboard";
 import { RecruiterDashboard } from "@/components/dashboard/RecruiterDashboard";
+import { ChatSystem } from "@/components/features/ChatSystem";
 import { useStore } from "@/store/useStore";
 import { normalizeRole } from "@/lib/auth";
 import { UserRole } from "@/types";
@@ -51,10 +52,11 @@ function DashboardContent() {
     const userRole = user ? normalizeRole(user.role || "Participant") : null;
 
     useEffect(() => {
-        if (userRole === "Organizer") {
+        // Don't redirect organizer if they're accessing messaging
+        if (userRole === "Organizer" && searchParams.get("tab") !== "chat") {
             router.push("/organizer/dashboard");
         }
-    }, [userRole, router]);
+    }, [userRole, router, searchParams]);
 
     if (loading) {
         return (
@@ -72,14 +74,32 @@ function DashboardContent() {
         <div className="min-h-screen bg-black pt-24 pb-12 px-6">
             <Navbar />
 
-            {userRole === "Participant" && (
-                <ParticipantDashboard user={user} setUser={setUser} />
-            )}
-            {userRole === "Sponsor" && (
-                <SponsorDashboard user={user} />
-            )}
-            {userRole === "Recruiter" && (
-                <RecruiterDashboard user={user} />
+            {searchParams.get("tab") === "chat" ? (
+                <ChatSystem variant="fullscreen" />
+            ) : (
+                <>
+                    {userRole === "Participant" && (
+                        <ParticipantDashboard user={user} setUser={setUser} />
+                    )}
+                    {userRole === "Sponsor" && (
+                        <SponsorDashboard user={user} />
+                    )}
+                    {userRole === "Recruiter" && (
+                        <RecruiterDashboard user={user} />
+                    )}
+                    {userRole === "Mentor" && (
+                        <div className="text-white text-center py-12">
+                            <p className="text-lg mb-4">Mentor Dashboard</p>
+                            <p className="text-gray-400">Access your mentor dashboard for detailed mentorship features.</p>
+                            <a href="/mentor/dashboard" className="text-accent1 hover:text-accent2 mt-4 inline-block">
+                                Go to Mentor Dashboard →
+                            </a>
+                        </div>
+                    )}
+
+                    {/* Floating Widget for non-chat tabs */}
+                    <ChatSystem initialOpen={false} variant="widget" />
+                </>
             )}
         </div>
     );

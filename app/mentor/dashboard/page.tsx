@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/Navbar";
 import { MentorDashboard } from "@/components/dashboard/MentorDashboard";
+import { ChatSystem } from "@/components/features/ChatSystem";
 import { useStore } from "@/store/useStore";
 import { normalizeRole } from "@/lib/auth";
 
@@ -54,6 +55,16 @@ function MentorDashboardContent() {
 
     if (!user) {
         return null;
+    }
+
+    // Show messaging if tab=chat
+    if (searchParams.get("tab") === "chat") {
+        return (
+            <div className="min-h-screen bg-black pt-24 pb-12 px-6">
+                <Navbar />
+                <ChatSystem variant="fullscreen" />
+            </div>
+        );
     }
 
     return (
